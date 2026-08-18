@@ -226,7 +226,3 @@ Open `http://localhost:3000` in your browser.
 | `GET` | `/api/export?format=csv` | Exports all records in flattened CSV format. |
 
 ---
-
-## Author
-
-Developed by [Aakash](https://github.com/a4kashhh). Built to demonstrate grounded generative intelligence and structured validation for commerce ecosystems.
