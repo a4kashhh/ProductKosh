@@ -1,30 +1,36 @@
-# Logs
-logs
-*.log
+# Dependencies
+/node_modules
+/.pnpm-store
+
+# Next.js & Build
+/.next/
+/out/
+/dist/
+/build
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Logs & Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+.pnpm-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment Variables
+.env
+.env*.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# System & OS
 .DS_Store
-*.suo
-*.ntvsoid
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
 
-# Legacy pre-refactor files
-src/answersData.js
-src/main.js
-src/style.css
-src/workflowEngine.js
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

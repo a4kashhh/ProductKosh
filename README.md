@@ -1,120 +1,232 @@
-# ContextForge AI
+# ProductKosh (Productकोश)
 
-ContextForge AI is an engineering intelligence platform designed for full-stack microservices architectures and distributed software systems. Unlike conventional AI coding tools that evaluate isolated code files, ContextForge AI aggregates software requirements, microservices architecture, application controllers, database schemas, git history, issue trackers, automated test suites, and OpenTelemetry distributed traces into a unified Engineering Context Knowledge Graph.
+ProductKosh is an enterprise-grade product intelligence platform engineered specifically for the Indian commerce and manufacturing landscape. It automates the transformation of minimal, unstructured product inputs (such as a brand name and basic title) into deeply enriched, validated, and commerce-ready catalog records mapped to standard UNSPSC taxonomy, realistic Indian market (INR) pricing, and national compliance standards.
+
+---
 
 ## Overview
 
-Modern software engineering involves complex interactions across distributed microservices. Diagnosing systemic issues such as connection leaks, latency spikes, and cascading failures often requires tracing relationships across multiple layers. ContextForge AI provides automated root-cause analysis, dependency impact analysis, and load test validation through an interactive interface.
+In the Indian supply chain and retail ecosystem, product data is frequently fragmented, inconsistent, and unstructured. Suppliers often provide minimal descriptions without standardized attribute keys, accurate UNSPSC classifications, or explicit regulatory compliance details.
 
-## Key Features
+ProductKosh addresses this challenge by combining vector-based document retrieval with grounded language model enrichment and a deterministic, category-aware validation engine. Every generated specification includes an explicit lineage trail, confidence score, and direct citation back to source technical datasheets, eliminating ungrounded hallucinations.
 
-### 1. Interactive Context Knowledge Graph
-- Visualizes entity relationships across eight node types: Requirements, Services, API Endpoints, Database Queries, Commits, Issues, Load Tests, and OpenTelemetry Traces.
-- Supports interactive node positioning, panning, zooming, filtering by node type, and inspection of metadata.
+---
 
-### 2. AI Incident and Root-Cause Reasoning Engine
-- Performs an eleven-stage automated reasoning traversal (parsing APM logs, tracing connection pools, mapping diffs, verifying SLAs).
-- Provides confidence scoring and APM evidence citations.
-- Visualizes the causal call path from traffic spikes to downstream timeout errors.
+## Key Capabilities
 
-### 3. Microservice Impact and Dependency Propagation Analysis
-- Analyzes upstream and downstream dependency ripple effects when modifying application logic or database queries.
-- Computes risk metrics for regression probability, API SLA impact, and database load safety.
+### Grounded Technical Extraction
+- Expands basic product names into comprehensive technical specifications.
+- Attaches confidence scores (0.0 to 1.0), source document references, and reasoning traces to every individual attribute.
+- Utilizes Google Gemini API for structured generation with an automated deterministic heuristic fallback.
 
-### 4. Automated Patch Generation and Code Diff Viewer
-- Generates type-safe code diffs (such as connection pool recycling via try/finally blocks).
-- Integrates a human review and approval workflow before deployment.
+### Standardized Taxonomy and Classification
+- Maps incoming products to precise 8-digit UNSPSC category codes and standardized naming conventions.
+- Covers consumer goods (FMCG), consumer appliances, electricals, construction materials, and heavy industrial process equipment.
 
-### 5. Automated Load Test and Performance Simulator
-- Simulates high-throughput traffic load tests (10,000 RPS).
-- Demonstrates real-time performance recovery from elevated error rates to full pass rates.
+### Indian Market Context and Currency
+- Generates realistic Indian retail and B2B market price ranges calibrated in Indian Rupees (INR).
+- Validates price boundary logic to prevent logical contradictions.
 
-### 6. Requirements Traceability Matrix
-- Maps functional and performance SLA requirements directly to API routes, controllers, tests, issues, and commits.
+### Regulatory Compliance Mapping
+- Automatically extracts and maps relevant Indian regulatory standards including:
+  - FSSAI and AGMARK for food, dairy, and edible oils.
+  - Bureau of Indian Standards (BIS IS) specifications across all product categories.
+  - Bureau of Energy Efficiency (BEE) star ratings for home appliances.
+  - Indian Boiler Regulations (IBR 1950) for process valves and piping.
+  - Petroleum and Explosives Safety Organisation (PESO/CCOE) and DGMS for industrial safety equipment.
+  - Legal Metrology compliance and Make in India supplier classification.
 
-### 7. Executive Engineering Resolution Reports
-- Generates structured summary reports containing root-cause analysis, evidence vectors, and validation results.
+### Category-Aware Validation Engine
+- Replaces rigid, one-size-fits-all checks with dynamic, category-specific validation rules.
+- Enforces mandatory attributes relevant to each product family (e.g., net volume and smoke point for edible oils; cooling capacity and star rating for air conditioners; flange rating and metallurgy for industrial valves).
+- Performs physical bound sanity checks (e.g., pressure within 0 to 700 Bar, temperatures within operating limits).
+
+### Human-in-the-Loop (HITL) Review Queue
+- Automatically routes records failing confidence thresholds or mandatory field checks to an interactive review queue.
+- Allows catalog managers to inspect source evidence, accept valid extractions, edit values inline, or reject faulty entries with audited feedback.
+
+### Export and Interoperability
+- Supports immediate export of enriched catalogs in structured JSON and flat CSV formats for direct ingestion into ERP, PIM, or marketplace databases.
+
+---
+
+## Pipeline Architecture
+
+ProductKosh operates across a 6-stage sequential pipeline:
+
+```
++-----------------------------------------------------------------------------+
+|                            ProductKosh Pipeline                             |
++-----------------------------------------------------------------------------+
+
+  INPUT                    RETRIEVAL                GENERATION
+  +----------------+       +------------------+     +-----------------------+
+  | Minimal Input  | ----> | Vector Search    | --> | Grounded Extraction   |
+  | (Name + Brand) |       | (TF-IDF Index    |     | (Gemini / Heuristic)  |
+  +----------------+       |  196 Chunks)     |     +-----------+-----------+
+                           +------------------+                 |
+                                                                v
+  HITL REVIEW              VALIDATION               CANONICAL RECORD
+  +----------------+       +------------------+     +-----------------------+
+  | Human Review   | <---- | Category-Aware   | <-- | Enriched Product      |
+  | (Accept / Edit |       | Rules Engine     |     | (Specs, Standards,    |
+  |  / Reject)     |       | (Bounds & Checks)|     |  INR Price, Lineage)  |
+  +-------+--------+       +------------------+     +-----------------------+
+          |
+          v
+  +----------------+
+  | Commerce-Ready |
+  | Export (JSON)  |
+  +----------------+
+```
+
+1. **Ingestion**: Raw product names and minimal seed attributes are loaded.
+2. **Retrieval**: The system queries an indexed vector corpus of over 40 Indian technical datasheets, retrieving the top 4 most relevant context chunks.
+3. **Enrichment**: The model extracts structured attributes, assigning confidence scores and source citations to each key.
+4. **Validation**: The record is evaluated against domain-specific constraints, bounds, and required field registries.
+5. **Auditing & HITL**: Flagged records enter the human review workflow for manual verification.
+6. **Export**: Validated records are finalized with complete audit lineage logs.
+
+---
+
+## Data Model
+
+Each enriched record conforms to the canonical `EnrichedProduct` schema:
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Unique record identifier. |
+| `sku` | string | Generated SKU matching Indian category conventions. |
+| `name` | string | Normalized product title. |
+| `category` | string | Standard UNSPSC taxonomy descriptor. |
+| `category_id` | string | Standard 8-digit UNSPSC code. |
+| `brand` | string | Manufacturer or brand entity. |
+| `description` | string | Detailed technical description grounded in source literature. |
+| `specifications` | Map<string, AttributeValue> | Key-value specification map containing value, unit, confidence score, source chunk ID, excerpt, and reasoning. |
+| `compliance` | ComplianceItem[] | Applicable Indian standards with individual confidence scores and citations. |
+| `price_range` | PriceRange | Estimated min/max values in INR with justification. |
+| `overall_confidence` | float | Composite reliability score across all extracted fields. |
+| `validation_status` | string | Status flag: `clean`, `needs_review`, or `reviewed`. |
+| `flagged_fields` | string[] | List of fields that triggered validation warnings or errors. |
+| `validation_issues` | ValidationIssue[] | Detailed diagnostics with recommended remediation actions. |
+| `lineage` | LineageLog[] | Complete chronological audit log of all transformations. |
+
+---
 
 ## Technology Stack
 
-- **Frontend**: React 18, Vite 5, JavaScript (ES6+), Modern CSS3 Design System
-- **Typography and Styling**: Custom HUD aesthetics (Orbitron, Rajdhani, JetBrains Mono)
-- **Icons and Graphics**: Lucide React Icon Suite, HTML5 Canvas API
-- **Domain Logic**: TypeScript definitions, Deterministic Context Graph Engine
-- **Build System**: Vite, esbuild, npm
+### Frontend
+- **Framework**: Next.js 16 (React 19, App Router)
+- **Styling**: Tailwind CSS, Vanilla CSS custom design system
+- **Typography**: Montserrat, Noto Sans Devanagari, Yatra One
+- **Icons**: Lucide React
+- **Shaders / Visuals**: WebGL shader integration
+
+### Backend
+- **Runtime**: Python 3.10+
+- **API Framework**: FastAPI with Uvicorn ASGI server
+- **Data Validation**: Pydantic v2
+- **Information Retrieval**: Scikit-Learn (TF-IDF vectorizer and cosine similarity)
+- **AI Integration**: Google Gemini API (`google-genai` SDK)
+
+---
+
+## Repository Structure
+
+```
+.
+|-- app/                         # Next.js App Router root
+|   |-- layout.tsx               # Root layout, fonts, and metadata
+|   |-- page.tsx                 # View controller (Homepage & Dashboard tabs)
+|   +-- globals.css              # Global styling tokens
+|-- components/                  # React UI components
+|   |-- HomePage.tsx             # Interactive landing page and feature navigation
+|   |-- HowItWorksPage.tsx       # System walkthrough, data model, and architecture
+|   |-- BatchProcessorView.tsx   # Batch execution interface with status polling
+|   |-- ProductCatalogView.tsx   # Searchable catalog table and inspection drawer
+|   |-- ReviewQueueView.tsx      # Human-in-the-loop audit and remediation interface
+|   |-- MetricsDashboardView.tsx # Aggregated accuracy and throughput analytics
+|   +-- ai-orb-header.tsx        # Application navigation bar
+|-- backend/                     # FastAPI application
+|   |-- main.py                  # API endpoints and route definitions
+|   |-- config.py                # Configuration and environment variables
+|   |-- models/
+|   |   +-- product.py           # Pydantic domain models and schemas
+|   +-- services/
+|       |-- corpus.py            # Technical datasheet loader and indexer
+|       |-- retrieval.py         # TF-IDF vector search and retrieval engine
+|       |-- generation.py        # Grounded generation logic and fallback rules
+|       +-- validation.py        # Category-aware validation rules engine
+|-- mock_corpus/                 # Raw text datasheets and sample input corpus
+|   |-- input_products.json      # 200 Indian seed products across 15+ categories
+|   +-- *.txt                    # Technical specification documents
++-- public/                      # Static assets, branding, and icons
+```
+
+---
 
 ## Getting Started
 
 ### Prerequisites
+- Node.js 18.x or higher
+- Python 3.10 or higher
+- Git
 
-- Node.js version 18.0.0 or higher
-- npm version 9.0.0 or higher
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/a4kashhh/contextforge.git
-   cd contextforge
-   ```
-
-2. Install project dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the local development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open the application:
-   Navigate to `http://localhost:3000/` in your web browser.
-
-### Building for Production
-
-To create a production build:
+### 1. Clone the Repository
 ```bash
-npm run build
+git clone https://github.com/a4kashhh/ProductKosh.git
+cd ProductKosh
 ```
 
-To preview the production build locally:
+### 2. Backend Setup
 ```bash
-npm run preview
+# Navigate to project root and create a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install fastapi uvicorn pydantic scikit-learn numpy google-genai
+
+# Optional: Set Gemini API key for live model generation
+export GEMINI_API_KEY="your-api-key-here"
+
+# Start the FastAPI server
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-## Project Structure
+The backend documentation will be accessible at `http://localhost:8000/docs`.
 
-```text
-contextforge/
-├── index.html                 # HTML entry point
-├── package.json               # Package configuration and dependencies
-├── vite.config.js             # Vite configuration
-├── README.md                  # Project documentation
-└── src/
-    ├── main.jsx               # Application entry point
-    ├── App.jsx                # Core layout and navigation state
-    ├── index.css              # Global styles and design system tokens
-    ├── types.ts               # Domain types for graph nodes and system data
-    ├── data/
-    │   └── seedData.js        # Microservices dataset and incident data
-    └── components/
-        ├── Header.jsx         # Navigation header and project status
-        ├── Sidebar.jsx        # Navigation menu and active incident bar
-        ├── LandingPage.jsx    # Overview and system pipeline visual
-        ├── Dashboard.jsx      # System metrics and active incident overview
-        ├── InvestigationView.jsx # Automated reasoning traversal and evidence inspector
-        ├── ContextGraph.jsx   # Interactive Canvas graph visualizer
-        ├── ImpactAnalysis.jsx # Microservices dependency propagation
-        ├── PatchView.jsx      # Code diff viewer and approval controls
-        ├── TestSimulator.jsx  # Load test execution and score simulator
-        ├── TraceabilityView.jsx # Requirements traceability matrix
-        ├── VehicleTopology.jsx# Cloud microservices architecture view
-        ├── TimelineView.jsx   # Git commit history and timeline
-        ├── AIAssistant.jsx    # Context-aware AI copilot interface
-        └── ReportModal.jsx    # Resolution report generator
+### 3. Frontend Setup
+```bash
+# In a separate terminal, install Node dependencies
+npm install
+
+# Start the Next.js development server
+npm run dev
 ```
 
-## License
+Open `http://localhost:3000` in your browser.
 
-This project is open-source and available under the MIT License.
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Service health status check. |
+| `POST` | `/api/documents/ingest` | Ingests and indexes technical specification documents. |
+| `POST` | `/api/enrich/single` | Enriches a single raw product input payload. |
+| `POST` | `/api/enrich/batch` | Initiates asynchronous batch enrichment for the seed corpus. |
+| `GET` | `/api/enrich/batch/status/{job_id}` | Polls progress and metrics for a running batch job. |
+| `GET` | `/api/products` | Retrieves all enriched products with optional status filtering. |
+| `GET` | `/api/products/{product_id}` | Retrieves a single product with full specification map and lineage. |
+| `PATCH` | `/api/products/{product_id}/review` | Submits human review actions (accept, edit, reject). |
+| `GET` | `/api/metrics` | Returns aggregated quality, confidence, and validation statistics. |
+| `GET` | `/api/export?format=json` | Exports all records in canonical JSON format. |
+| `GET` | `/api/export?format=csv` | Exports all records in flattened CSV format. |
+
+---
+
+## Author
+
+Developed by [Aakash](https://github.com/a4kashhh). Built to demonstrate grounded generative intelligence and structured validation for commerce ecosystems.
