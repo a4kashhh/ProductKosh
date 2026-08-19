@@ -12,9 +12,11 @@ import {
   signOut,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  ConfirmationResult
+  ConfirmationResult,
+  GoogleAuthProvider,
+  OAuthProvider
 } from "firebase/auth"
-import { auth, googleProvider, appleProvider } from "@/lib/firebase"
+import { auth } from "@/lib/firebase"
 
 export interface AppUser {
   uid: string
@@ -92,7 +94,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithGoogle = async () => {
     try {
-      const res = await signInWithPopup(auth, googleProvider)
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({ prompt: 'select_account' })
+      const res = await signInWithPopup(auth, provider)
       if (res && res.user) {
         const appUser = formatAppUser(res.user, "google.com")
         setUser(appUser)
@@ -104,8 +108,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return
       }
     } catch (err: any) {
-      console.warn("signInWithPopup returned notice:", err?.message || err)
-      // If IndexedDB closed or temporary error occurred but user was actually authenticated:
+      console.warn("signInWithGoogle notice:", err?.message || err)
+      // In case IndexedDB closed or interrupted during popup close, check if auth already recognized the user
       if (auth.currentUser) {
         const appUser = formatAppUser(auth.currentUser, "google.com")
         setUser(appUser)
@@ -122,7 +126,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithApple = async () => {
     try {
-      const res = await signInWithPopup(auth, appleProvider)
+      const provider = new OAuthProvider('apple.com')
+      provider.addScope('email')
+      provider.addScope('name')
+      const res = await signInWithPopup(auth, provider)
       if (res && res.user) {
         const appUser = formatAppUser(res.user, "apple.com")
         setUser(appUser)

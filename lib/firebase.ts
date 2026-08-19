@@ -1,11 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app"
-import {
-  initializeAuth,
-  getAuth,
-  browserLocalPersistence,
-  GoogleAuthProvider,
-  OAuthProvider
-} from "firebase/auth"
+import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth"
 
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyCIPTkkuXRL0-gj1b9YoacnQR8XD2uiEV0",
@@ -17,18 +11,9 @@ export const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-9CNMGB8LC0"
 }
 
-// Initialize Firebase App
+// Canonical singleton Firebase app & auth
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)
-
-// Explicitly use browserLocalPersistence (localStorage) instead of IndexedDB to prevent "Database is closing/hidden" errors
-let auth: ReturnType<typeof getAuth>
-try {
-  auth = initializeAuth(app, {
-    persistence: browserLocalPersistence
-  })
-} catch (e) {
-  auth = getAuth(app)
-}
+const auth = getAuth(app)
 
 const googleProvider = new GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: 'select_account' })
