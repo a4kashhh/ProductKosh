@@ -1,5 +1,14 @@
 import { initializeApp, getApps, getApp } from "firebase/app"
-import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth"
+import {
+  initializeAuth,
+  getAuth,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  indexedDBLocalPersistence,
+  inMemoryPersistence,
+  GoogleAuthProvider,
+  OAuthProvider
+} from "firebase/auth"
 
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
@@ -11,9 +20,23 @@ export const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-9CNMGB8LC0"
 }
 
-// Initialize Firebase once
+// Initialize Firebase App
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)
-const auth = getAuth(app)
+
+// Safely initialize Auth with fallback persistence to prevent "Database is closing/hidden" IndexedDB errors
+let auth: ReturnType<typeof getAuth>
+try {
+  if (typeof window !== "undefined") {
+    auth = initializeAuth(app, {
+      persistence: [browserLocalPersistence, indexedDBLocalPersistence, browserSessionPersistence, inMemoryPersistence]
+    })
+  } else {
+    auth = getAuth(app)
+  }
+} catch (e) {
+  // If already initialized (e.g. during Fast Refresh / HMR)
+  auth = getAuth(app)
+}
 
 const googleProvider = new GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: 'select_account' })

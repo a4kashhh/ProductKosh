@@ -12,7 +12,9 @@ import {
   signOut,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  ConfirmationResult
+  ConfirmationResult,
+  setPersistence,
+  browserLocalPersistence
 } from "firebase/auth"
 import { auth, googleProvider, appleProvider } from "@/lib/firebase"
 
@@ -84,6 +86,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signInWithGoogle = async () => {
+    try {
+      await setPersistence(auth, browserLocalPersistence)
+    } catch (e) {}
     const res = await signInWithPopup(auth, googleProvider)
     if (res.user) {
       setIsAuthModalOpen(false)
@@ -91,6 +96,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signInWithApple = async () => {
+    try {
+      await setPersistence(auth, browserLocalPersistence)
+    } catch (e) {}
     const res = await signInWithPopup(auth, appleProvider)
     if (res.user) {
       setIsAuthModalOpen(false)
