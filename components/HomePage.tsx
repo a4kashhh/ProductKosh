@@ -263,40 +263,40 @@ export function HomePage({ onEnter }: HomePageProps) {
   return (
     <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white">
 
-      {/* ── TOP NAVIGATION BAR (PROMINENT LARGE SCALE) ────────────────────── */}
-      <header className="border-b border-neutral-100 bg-white/95 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-10 h-24 flex items-center justify-between gap-4">
+      {/* ── TOP NAVIGATION BAR ────────────────────────────────── */}
+      <header className="border-b border-neutral-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between gap-4">
           
-          {/* Logo & Wordmark (Large & Crisp) */}
-          <div className="flex items-center gap-3.5 shrink-0">
+          {/* Logo & Wordmark (Zoomed & Prominent) */}
+          <div className="flex items-center gap-3 shrink-0">
             <img
               src="/logo.png"
               alt="ProductKOSH Logo"
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-contain drop-shadow-sm"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-contain drop-shadow-xs"
             />
             <img
               src="/wordmark.png"
               alt="ProductKosh"
-              className="h-9 sm:h-11 object-contain"
+              className="h-8 sm:h-10 object-contain"
               style={{ filter: "brightness(0)" }}
             />
           </div>
 
           {/* Nav Actions */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => setShowHelp(true)}
-              className="text-sm sm:text-base font-medium text-neutral-600 hover:text-black transition-colors hidden sm:inline-block"
+              className="text-xs sm:text-sm font-medium text-neutral-500 hover:text-black transition-colors hidden xs:inline-block"
             >
               How it works
             </button>
 
             <button
               onClick={() => onEnter("processor")}
-              className="text-sm sm:text-base font-bold px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-black text-white hover:bg-neutral-800 transition-all flex items-center gap-2.5 shadow-md shrink-0"
+              className="text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-black text-white hover:bg-neutral-800 transition-all flex items-center gap-1.5 shadow-xs shrink-0"
             >
               <span>Dashboard</span>
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
             <UserMenu />
@@ -304,15 +304,15 @@ export function HomePage({ onEnter }: HomePageProps) {
         </div>
       </header>
 
-      {/* ── HERO SECTION (MASSIVE HIGH-IMPACT SCALE) ──────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 pt-16 sm:pt-28 pb-20 sm:pb-32 text-center">
+      {/* ── HERO SECTION ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-14 sm:pb-18 text-center">
         
-        {/* Brand Unit: Official Logo + Wordmark */}
-        <div className="flex flex-col items-center gap-5 sm:gap-6 mb-8 sm:mb-10">
+        {/* Brand Unit: Zoomed & Crisp Logo + Wordmark */}
+        <div className="flex flex-col items-center gap-4 sm:gap-5 mb-8">
           <img
             src="/logo.png"
             alt="ProductKOSH Logo"
-            className="rounded-3xl object-contain drop-shadow-2xl w-32 h-32 sm:w-44 sm:h-44"
+            className="rounded-3xl object-contain drop-shadow-xl w-32 h-32 sm:w-44 sm:h-44 hover:scale-105 transition-transform duration-300"
           />
           <img
             src="/wordmark.png"
@@ -323,75 +323,75 @@ export function HomePage({ onEnter }: HomePageProps) {
         </div>
 
         {/* Hero Headline */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-neutral-950 leading-[1.08] mb-6 sm:mb-8 max-w-5xl mx-auto">
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-950 leading-[1.15] mb-4 max-w-3xl mx-auto">
           Grounded Product Catalog Intelligence for Indian Industry & Commerce
         </h1>
 
-        <p className="text-lg sm:text-2xl md:text-3xl text-neutral-600 leading-relaxed max-w-4xl mx-auto mb-10 sm:mb-14 font-normal">
+        <p className="text-sm sm:text-base text-neutral-500 leading-relaxed max-w-2xl mx-auto mb-8 font-normal">
           Takes minimal supplier descriptions and enriches complete, specification-accurate catalog records — verified against genuine OEM technical datasheets, mapped to UNSPSC taxonomy, and audited for BIS, FSSAI, BEE, and IBR compliance.
         </p>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 sm:gap-5 max-w-lg sm:max-w-none mx-auto">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
           <button
             onClick={() => onEnter("processor")}
-            className="px-10 sm:px-12 py-5 sm:py-6 rounded-full bg-black text-white font-bold text-base sm:text-xl hover:bg-neutral-800 transition-all shadow-xl flex items-center justify-center gap-3 w-full sm:w-auto"
+            className="px-8 py-3.5 rounded-full bg-black text-white font-semibold text-xs sm:text-sm hover:bg-neutral-800 transition-all shadow-md flex items-center justify-center gap-2 w-full sm:w-auto"
           >
             <span>Open Batch Processor</span>
-            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ArrowRight className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => onEnter("catalog")}
-            className="px-10 sm:px-12 py-5 sm:py-6 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-950 font-bold text-base sm:text-xl transition-colors text-center w-full sm:w-auto"
+            className="px-7 py-3.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold text-xs sm:text-sm transition-colors text-center w-full sm:w-auto"
           >
             Explore Product Catalog
           </button>
         </div>
 
         {/* Stats Strip with Clean Dividers */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12 pt-14 sm:pt-20 mt-14 sm:mt-20 border-t border-neutral-200 text-left">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-10 sm:pt-12 mt-10 sm:mt-12 border-t border-neutral-100 text-left">
           <div className="p-2">
-            <div className="text-3xl sm:text-5xl md:text-6xl font-bold text-neutral-950 font-mono">100%</div>
-            <div className="text-sm sm:text-base text-neutral-500 mt-1 sm:mt-2 font-medium">Grounded Lineage</div>
+            <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">100%</div>
+            <div className="text-xs text-neutral-500 mt-1 font-medium">Grounded Lineage</div>
           </div>
           <div className="p-2">
-            <div className="text-3xl sm:text-5xl md:text-6xl font-bold text-neutral-950 font-mono">UNSPSC</div>
-            <div className="text-sm sm:text-base text-neutral-500 mt-1 sm:mt-2 font-medium">Standard Taxonomy</div>
+            <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">UNSPSC</div>
+            <div className="text-xs text-neutral-500 mt-1 font-medium">Standard Taxonomy</div>
           </div>
           <div className="p-2">
-            <div className="text-3xl sm:text-5xl md:text-6xl font-bold text-emerald-600 font-mono">96.8%</div>
-            <div className="text-sm sm:text-base text-neutral-500 mt-1 sm:mt-2 font-medium">Extraction Confidence</div>
+            <div className="text-2xl sm:text-3xl font-bold text-emerald-600 font-mono">96.8%</div>
+            <div className="text-xs text-neutral-500 mt-1 font-medium">Extraction Confidence</div>
           </div>
           <div className="p-2">
-            <div className="text-3xl sm:text-5xl md:text-6xl font-bold text-amber-600 font-mono">₹ INR</div>
-            <div className="text-sm sm:text-base text-neutral-500 mt-1 sm:mt-2 font-medium">Market Pricing</div>
+            <div className="text-2xl sm:text-3xl font-bold text-amber-600 font-mono">₹ INR</div>
+            <div className="text-xs text-neutral-500 mt-1 font-medium">Market Pricing</div>
           </div>
         </div>
 
       </section>
 
-      {/* ── LIVE INTERACTIVE PRODUCT GROUNDING ENGINE (SCALED UP) ─────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 py-16 sm:py-24 border-t border-neutral-100">
+      {/* ── LIVE INTERACTIVE PRODUCT GROUNDING ENGINE ──────────────────────── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 border-t border-neutral-100">
         
         {/* Header & Product Switcher */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 pb-6 border-b border-neutral-200">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-200">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-950">
+            <h2 className="text-2xl font-bold text-neutral-950">
               Product Transformation Engine
             </h2>
           </div>
 
           {/* Brand Pills */}
-          <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-1 max-w-full -mx-1 px-1">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 max-w-full -mx-1 px-1">
             {DEMO_PRODUCTS.map((prod, idx) => (
               <button
                 key={prod.id}
                 onClick={() => setSelectedIdx(idx)}
-                className={`text-sm sm:text-base px-5 py-2.5 rounded-full transition-all shrink-0 font-medium ${
+                className={`text-xs px-3.5 py-1.5 rounded-full transition-all shrink-0 font-medium ${
                   selectedIdx === idx
-                    ? "bg-black text-white font-bold shadow-md"
-                    : "text-neutral-600 hover:text-black hover:bg-neutral-100"
+                    ? "bg-black text-white font-semibold shadow-2xs"
+                    : "text-neutral-500 hover:text-black hover:bg-neutral-100"
                 }`}
               >
                 {prod.brand}
@@ -401,51 +401,51 @@ export function HomePage({ onEnter }: HomePageProps) {
         </div>
 
         {/* Clean Open Two-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           
           {/* Left Column: Product Metadata */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-5 space-y-5">
             <div>
-              <span className="text-xs sm:text-sm font-mono font-semibold text-neutral-400 uppercase">
+              <span className="text-[11px] font-mono font-semibold text-neutral-400 uppercase">
                 {current.category}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-2 leading-snug">
+              <h3 className="text-xl font-bold text-neutral-950 mt-1 leading-snug">
                 {current.name}
               </h3>
             </div>
 
-            <div className="space-y-5 pt-2 text-base">
+            <div className="space-y-4 pt-1 text-xs">
               <div>
-                <span className="text-neutral-500 block mb-1 text-xs sm:text-sm uppercase font-mono">Estimated Indian Market Price</span>
-                <span className="text-3xl sm:text-4xl md:text-5xl font-bold font-mono text-neutral-950">{current.price}</span>
+                <span className="text-neutral-400 block mb-0.5">Estimated Indian Market Price</span>
+                <span className="text-2xl font-bold font-mono text-neutral-950">{current.price}</span>
               </div>
 
               <div>
-                <span className="text-neutral-500 block mb-1 text-xs sm:text-sm uppercase font-mono">Matched Technical Datasheet</span>
-                <span className="font-mono text-neutral-800 text-sm sm:text-base font-semibold break-all">{current.docId}</span>
+                <span className="text-neutral-400 block mb-0.5">Matched Technical Datasheet</span>
+                <span className="font-mono text-neutral-700 text-[11px] break-all">{current.docId}</span>
               </div>
 
               <div>
-                <span className="text-neutral-500 block mb-1 text-xs sm:text-sm uppercase font-mono">GST HSN Classification</span>
-                <span className="font-mono text-neutral-950 font-bold text-base sm:text-lg">{current.hsn}</span>
+                <span className="text-neutral-400 block mb-0.5">GST HSN Classification</span>
+                <span className="font-mono text-neutral-900 font-semibold">{current.hsn}</span>
               </div>
 
               <div>
-                <span className="text-neutral-500 block mb-1 text-xs sm:text-sm uppercase font-mono">Extraction Confidence Score</span>
-                <span className="inline-flex items-center gap-2 font-mono font-bold text-emerald-600 text-lg sm:text-xl">
-                  <CheckCircle2 className="w-6 h-6" />
+                <span className="text-neutral-400 block mb-0.5">Extraction Confidence Score</span>
+                <span className="inline-flex items-center gap-1 font-mono font-bold text-emerald-600 text-sm">
+                  <CheckCircle2 className="w-4 h-4" />
                   {current.confidence}
                 </span>
               </div>
             </div>
 
-            <div className="pt-3">
+            <div className="pt-2">
               <button
                 onClick={() => onEnter("catalog")}
-                className="w-full py-4 sm:py-5 px-8 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-base sm:text-lg transition-colors flex items-center justify-center gap-3 shadow-md"
+                className="w-full py-3 px-5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
               >
                 <span>Inspect in Full Catalog</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
@@ -454,11 +454,11 @@ export function HomePage({ onEnter }: HomePageProps) {
           <div className="lg:col-span-7">
             
             {/* View Switcher */}
-            <div className="flex items-center justify-between pb-4 mb-3 border-b border-neutral-200">
-              <div className="flex gap-6 sm:gap-8 text-base sm:text-lg font-bold">
+            <div className="flex items-center justify-between pb-3 mb-2 border-b border-neutral-100">
+              <div className="flex gap-4 text-xs font-semibold">
                 <button
                   onClick={() => setActiveTab("specs")}
-                  className={`pb-2 transition-colors ${
+                  className={`pb-1 transition-colors ${
                     activeTab === "specs"
                       ? "text-black border-b-2 border-black"
                       : "text-neutral-400 hover:text-black"
@@ -468,7 +468,7 @@ export function HomePage({ onEnter }: HomePageProps) {
                 </button>
                 <button
                   onClick={() => setActiveTab("compliance")}
-                  className={`pb-2 transition-colors ${
+                  className={`pb-1 transition-colors ${
                     activeTab === "compliance"
                       ? "text-black border-b-2 border-black"
                       : "text-neutral-400 hover:text-black"
@@ -478,22 +478,22 @@ export function HomePage({ onEnter }: HomePageProps) {
                 </button>
               </div>
 
-              <span className="text-xs sm:text-sm text-neutral-400 font-mono hidden xs:inline-block">Grounded Lineage</span>
+              <span className="text-[11px] text-neutral-400 font-mono hidden xs:inline-block">Grounded Lineage</span>
             </div>
 
             {/* TAB 1: Specs Table */}
             {activeTab === "specs" && (
               <div className="divide-y divide-neutral-100">
                 {current.specs.map((s, idx) => (
-                  <div key={idx} className="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-6 text-base">
+                  <div key={idx} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 text-xs">
                     <div>
-                      <span className="text-neutral-400 text-xs sm:text-sm block font-medium">{s.name}</span>
-                      <span className="font-bold text-neutral-950 text-base sm:text-lg mt-0.5 block">{s.value}</span>
+                      <span className="text-neutral-400 text-[11px] block">{s.name}</span>
+                      <span className="font-semibold text-neutral-900 text-sm mt-0.5 block">{s.value}</span>
                     </div>
 
-                    <div className="flex items-center sm:flex-col sm:items-end justify-between gap-3 shrink-0">
-                      <span className="font-mono text-xs sm:text-sm text-neutral-400 block">{s.citation}</span>
-                      <span className="font-mono text-sm sm:text-base font-bold text-emerald-600">{s.conf}</span>
+                    <div className="flex items-center sm:flex-col sm:items-end justify-between gap-2 shrink-0">
+                      <span className="font-mono text-[10px] text-neutral-400 block">{s.citation}</span>
+                      <span className="font-mono text-[11px] font-bold text-emerald-600">{s.conf}</span>
                     </div>
                   </div>
                 ))}
@@ -504,10 +504,10 @@ export function HomePage({ onEnter }: HomePageProps) {
             {activeTab === "compliance" && (
               <div className="divide-y divide-neutral-100">
                 {current.compliance.map((c, idx) => (
-                  <div key={idx} className="py-5 flex items-center justify-between gap-4 text-base">
-                    <span className="font-bold text-neutral-950 font-mono text-base sm:text-lg leading-snug">{c}</span>
-                    <span className="text-sm sm:text-base font-bold text-emerald-600 flex items-center gap-2 shrink-0">
-                      <Check className="w-5 h-5" /> Verified
+                  <div key={idx} className="py-4 flex items-center justify-between gap-2 text-xs">
+                    <span className="font-bold text-neutral-950 font-mono text-sm leading-snug">{c}</span>
+                    <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1 shrink-0">
+                      <Check className="w-3.5 h-3.5" /> Verified
                     </span>
                   </div>
                 ))}
@@ -521,37 +521,37 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── TAXONOMY COVERAGE DIRECTORY ───────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 py-20 sm:py-28 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-16 border-t border-neutral-100">
         
-        <div className="mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-400 font-mono">
+        <div className="mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Standard Taxonomy
           </span>
-          <h2 className="text-3xl sm:text-5xl font-bold text-neutral-950 mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
             Supported Product Domains & Standards
           </h2>
-          <p className="text-base sm:text-lg text-neutral-500 mt-2 max-w-2xl">
+          <p className="text-xs sm:text-sm text-neutral-500 mt-1 max-w-xl">
             Productकोश maps Indian commercial catalogs into hierarchical UNSPSC standard codes with dedicated required domain schemas.
           </p>
         </div>
 
         <div className="divide-y divide-neutral-100">
           {TAXONOMY_FAMILIES.map((tax, idx) => (
-            <div key={idx} className="py-6 sm:py-8 grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 text-base items-start">
-              <div className="md:col-span-4 space-y-1.5">
-                <span className="font-mono text-xs sm:text-sm font-semibold text-neutral-400">UNSPSC {tax.unspsc}</span>
-                <h3 className="font-bold text-lg sm:text-xl text-neutral-950">{tax.segment}</h3>
-                <span className="text-xs sm:text-sm text-neutral-400 font-mono block pt-1">{tax.standards}</span>
+            <div key={idx} className="py-5 grid grid-cols-1 md:grid-cols-12 gap-4 text-xs items-start">
+              <div className="md:col-span-4 space-y-0.5">
+                <span className="font-mono text-[10px] font-semibold text-neutral-400">UNSPSC {tax.unspsc}</span>
+                <h3 className="font-bold text-sm text-neutral-950">{tax.segment}</h3>
+                <span className="text-[10px] text-neutral-400 font-mono block pt-0.5">{tax.standards}</span>
               </div>
 
-              <div className="md:col-span-4 space-y-1.5">
-                <span className="text-neutral-400 text-xs sm:text-sm uppercase font-mono block">Indexed Indian Brands</span>
-                <p className="text-neutral-700 text-sm sm:text-base leading-relaxed">{tax.examples}</p>
+              <div className="md:col-span-4 space-y-0.5">
+                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Indexed Indian Brands</span>
+                <p className="text-neutral-700 text-[11px] leading-relaxed">{tax.examples}</p>
               </div>
 
-              <div className="md:col-span-4 space-y-1.5">
-                <span className="text-neutral-400 text-xs sm:text-sm uppercase font-mono block">Mandatory Parameters</span>
-                <p className="text-neutral-500 text-sm sm:text-base leading-relaxed">{tax.attributes}</p>
+              <div className="md:col-span-4 space-y-0.5">
+                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Mandatory Parameters</span>
+                <p className="text-neutral-500 text-[11px] leading-relaxed">{tax.attributes}</p>
               </div>
             </div>
           ))}
@@ -560,29 +560,29 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── ARCHITECTURAL CAPABILITIES ────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 py-20 sm:py-28 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-16 border-t border-neutral-100">
         
-        <div className="mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-400 font-mono">
+        <div className="mb-10 sm:mb-12">
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Pipeline Architecture
           </span>
-          <h2 className="text-3xl sm:text-5xl font-bold text-neutral-950 mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
             Engineered for Grounded Accuracy
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 sm:gap-x-20 gap-y-10 sm:gap-y-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 sm:gap-x-12 gap-y-8 sm:gap-y-10">
           {CAPABILITIES.map((cap) => (
-            <div key={cap.num} className="space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-base sm:text-lg font-bold text-neutral-400">{cap.num}</span>
-                <span className="h-px w-10 bg-neutral-200" />
-                <span className="text-xs sm:text-sm font-mono uppercase text-neutral-500 font-semibold">{cap.tag}</span>
+            <div key={cap.num} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs font-bold text-neutral-400">{cap.num}</span>
+                <span className="h-px w-6 bg-neutral-200" />
+                <span className="text-[11px] font-mono uppercase text-neutral-500 font-medium">{cap.tag}</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-neutral-950">
+              <h3 className="text-base font-bold text-neutral-950">
                 {cap.title}
               </h3>
-              <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
+              <p className="text-xs text-neutral-600 leading-relaxed">
                 {cap.description}
               </p>
             </div>
@@ -592,23 +592,23 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── NATIONAL COMPLIANCE SUMMARY ─────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 py-20 sm:py-28 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-16 border-t border-neutral-100">
         
-        <div className="mb-10 sm:mb-14">
-          <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-400 font-mono">
+        <div className="mb-8">
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Regulatory Framework
           </span>
-          <h2 className="text-3xl sm:text-5xl font-bold text-neutral-950 mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
             Mapped National Standards
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {STANDARDS.map((std, idx) => (
-            <div key={idx} className="space-y-2 p-5 sm:p-0 bg-neutral-50 sm:bg-transparent rounded-2xl">
-              <div className="font-bold text-lg sm:text-xl text-neutral-950 font-mono">{std.code}</div>
-              <div className="text-sm sm:text-base font-semibold text-neutral-800">{std.name}</div>
-              <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed pt-1">{std.desc}</p>
+            <div key={idx} className="space-y-1 p-3 sm:p-0 bg-neutral-50 sm:bg-transparent rounded-lg">
+              <div className="font-bold text-sm text-neutral-950 font-mono">{std.code}</div>
+              <div className="text-xs font-semibold text-neutral-700">{std.name}</div>
+              <p className="text-[11px] text-neutral-500 leading-relaxed pt-1">{std.desc}</p>
             </div>
           ))}
         </div>
@@ -616,24 +616,24 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── TECHNICAL FREQUENTLY ASKED QUESTIONS ─────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 py-20 sm:py-28 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-16 border-t border-neutral-100">
         
-        <div className="mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-400 font-mono">
+        <div className="mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Technical Details
           </span>
-          <h2 className="text-3xl sm:text-5xl font-bold text-neutral-950 mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
             Frequently Asked Questions
           </h2>
         </div>
 
         <div className="divide-y divide-neutral-100">
           {FAQS.map((faq, idx) => (
-            <div key={idx} className="py-6 sm:py-8 space-y-2.5 text-base">
-              <h3 className="font-bold text-lg sm:text-2xl text-neutral-950">
+            <div key={idx} className="py-5 space-y-2 text-xs">
+              <h3 className="font-bold text-sm sm:text-base text-neutral-950">
                 {faq.q}
               </h3>
-              <p className="text-neutral-600 leading-relaxed max-w-4xl text-sm sm:text-base">
+              <p className="text-neutral-600 leading-relaxed max-w-3xl text-xs">
                 {faq.a}
               </p>
             </div>
@@ -643,26 +643,26 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── BOTTOM CALL TO ACTION ────────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-10 py-24 sm:py-32 border-t border-neutral-100 text-center">
-        <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-neutral-950 tracking-tight">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20 border-t border-neutral-100 text-center">
+        <div className="max-w-xl mx-auto space-y-5 sm:space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
             Ready to enrich your Indian product catalog?
           </h2>
-          <p className="text-base sm:text-xl text-neutral-500 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">
             Feed minimal supplier inputs or run automated batch extraction across Indian industrial and retail products.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-5 max-w-md sm:max-w-none mx-auto pt-2">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 max-w-xs sm:max-w-none mx-auto">
             <button
               onClick={() => onEnter("processor")}
-              className="px-10 sm:px-12 py-5 sm:py-6 rounded-full bg-black text-white font-bold text-base sm:text-lg hover:bg-neutral-800 transition-all shadow-xl flex items-center justify-center gap-3 w-full sm:w-auto"
+              className="px-8 py-3.5 rounded-full bg-black text-white font-semibold text-xs sm:text-sm hover:bg-neutral-800 transition-all shadow-md flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <span>Enter Batch Processor</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => onEnter("catalog")}
-              className="px-10 sm:px-12 py-5 sm:py-6 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-950 font-bold text-base sm:text-lg transition-colors w-full sm:w-auto"
+              className="px-6 py-3.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold text-xs sm:text-sm transition-colors w-full sm:w-auto"
             >
               Search Catalog
             </button>
@@ -671,7 +671,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── MINIMAL FOOTER ───────────────────────────────────────────────── */}
-      <footer className="border-t border-neutral-100 py-10 text-center text-sm sm:text-base text-neutral-500 font-sans">
+      <footer className="border-t border-neutral-100 py-8 text-center text-xs text-neutral-500 font-sans">
         © a4kashhh
       </footer>
 
