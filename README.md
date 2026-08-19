@@ -1,6 +1,6 @@
 # ProductKosh (Productकोश)
 
-ProductKosh is an enterprise-grade product intelligence platform engineered specifically for the Indian commerce and manufacturing landscape. It automates the transformation of minimal, unstructured product inputs (such as a brand name and basic title) into deeply enriched, validated, and commerce-ready catalog records mapped to standard UNSPSC taxonomy, realistic Indian market (INR) pricing, and national compliance standards.
+ProductKosh is an enterprise-grade product intelligence platform engineered specifically for the Indian commerce and manufacturing landscape. It automates the transformation of minimal, unstructured product inputs (such as a brand name and basic title) into deeply enriched, validated, and commerce-ready catalog records mapped to standard UNSPSC taxonomy, realistic Indian market (INR) pricing and national compliance standards.
 
 ---
 
