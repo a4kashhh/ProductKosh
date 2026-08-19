@@ -2,7 +2,7 @@ import { initializeApp, getApps, getApp } from "firebase/app"
 import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth"
 
 export const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyCIPTkkuXRL0-gj1b9YoacnQR8XD2uiEV0",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "productkosh-271d1.firebaseapp.com",
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "productkosh-271d1",
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "productkosh-271d1.firebasestorage.app",
