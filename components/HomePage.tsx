@@ -13,7 +13,16 @@ import {
   Zap,
   Activity,
   Layers,
-  ChevronRight
+  ChevronRight,
+  FileCode2,
+  Database,
+  Cpu,
+  Fingerprint,
+  Scale,
+  Sparkles,
+  ChevronDown,
+  Building2,
+  PackageCheck
 } from "lucide-react"
 
 interface HomePageProps {
@@ -28,6 +37,7 @@ const DEMO_PRODUCTS = [
     name: "L&T Cast Steel Globe Valve 150#",
     category: "Valves · Globe & Control (UNSPSC 40141600)",
     docId: "DOC-004_LT_GlobeValve_Class150.md",
+    hsn: "8481.80.30",
     price: "₹14,500 – ₹18,200",
     confidence: "98.4%",
     compliance: ["IBR 1950 (Boiler Steam)", "BS 1873 / API 598", "Make in India Tier-1"],
@@ -45,6 +55,7 @@ const DEMO_PRODUCTS = [
     name: "Voltas 1.5 Ton 5-Star Inverter Split AC",
     category: "Air Conditioners · Split (UNSPSC 40101701)",
     docId: "DOC-008_Voltas_SplitAC_185V.md",
+    hsn: "8415.10.10",
     price: "₹38,990 – ₹44,500",
     confidence: "97.8%",
     compliance: ["BEE 5-Star (ISEER 5.05)", "BIS IS 1391 Part-2", "RoHS R32 Gas"],
@@ -62,6 +73,7 @@ const DEMO_PRODUCTS = [
     name: "Fortune Kachi Ghani Mustard Oil 1L",
     category: "Edible Oils & Fats (UNSPSC 50151513)",
     docId: "DOC-019_Fortune_MustardOil.md",
+    hsn: "1514.91.20",
     price: "₹145 – ₹175",
     confidence: "96.5%",
     compliance: ["FSSAI Lic. 10013021000853", "AGMARK Grade-1", "Legal Metrology 2009"],
@@ -79,6 +91,7 @@ const DEMO_PRODUCTS = [
     name: "Havells Fabio 16A 1-Way Modular Switch",
     category: "Wiring Devices (UNSPSC 39122200)",
     docId: "DOC-014_Havells_FabioSwitches.md",
+    hsn: "8536.50.20",
     price: "₹125 – ₹160",
     confidence: "98.1%",
     compliance: ["BIS IS 3854:1997", "Glow Wire 850°C", "RoHS Heavy Metal Free"],
@@ -92,7 +105,41 @@ const DEMO_PRODUCTS = [
   },
 ]
 
-// ── CORE CAPABILITIES ────────────────────────────────────────────────────────
+// ── TAXONOMY FAMILIES ────────────────────────────────────────────────────────
+const TAXONOMY_FAMILIES = [
+  {
+    segment: "Industrial & Process Equipment",
+    unspsc: "40000000",
+    examples: "L&T Valves, Kirloskar Pumps, Forbes Marshall Steam Traps, Jindal Seamless Pipes",
+    attributes: "Pressure Rating (PN/Class), Body Metallurgy (WCB/CF8M), Flow Coeff (Cv), End Flanges",
+  },
+  {
+    segment: "Electrical, Power & Grid Systems",
+    unspsc: "39000000",
+    examples: "Havells Fabio Switches, Polycab FRLS Industrial Cables, ABB Switchgear, Crompton Motors",
+    attributes: "Voltage (V), Current (A), Breaking Capacity (kA), Flame Retardancy (IS 694 / IS 3854)",
+  },
+  {
+    segment: "HVAC & Thermal Comfort",
+    unspsc: "40100000",
+    examples: "Voltas Inverter Split ACs, Blue Star Chillers, Havells Ceiling Fans, Racold Geysers",
+    attributes: "Cooling Capacity (kW/TR), ISEER BEE Star Rating, Refrigerant Type, Copper Tube Gauge",
+  },
+  {
+    segment: "Food, Commodities & FMCG",
+    unspsc: "50000000",
+    examples: "Tata Tea Gold, Fortune Mustard Oil, Amul Butter, Dabur Pure Honey, Surf Excel",
+    attributes: "FSSAI Registration Lic, Net Quantity (g/mL), Grade (AGMARK), Fortification (+F)",
+  },
+  {
+    segment: "Construction & Surface Engineering",
+    unspsc: "30000000",
+    examples: "Asian Paints Royale, Tata Tiscon TMT 550D Rebars, UltraTech Cement, Supreme PVC",
+    attributes: "Tensile Strength (MPa), BIS IS 1786/IS 2062, VOC Content (g/L), Setting Time",
+  },
+]
+
+// ── ARCHITECTURE CAPABILITIES ────────────────────────────────────────────────
 const CAPABILITIES = [
   {
     num: "01",
@@ -122,10 +169,30 @@ const CAPABILITIES = [
 
 // ── REGULATORY MATRIX ────────────────────────────────────────────────────────
 const STANDARDS = [
-  { code: "BIS IS", name: "Bureau of Indian Standards", desc: "IS 1391 (ACs), IS 3854 (Switches), IS 2062 (Steel), IS 1239 (Piping)" },
-  { code: "FSSAI", name: "Food Safety & Standards", desc: "Statutory labeling, AGMARK grading, and Legal Metrology net quantities" },
-  { code: "BEE Star", name: "Bureau of Energy Efficiency", desc: "ISEER star rating, power consumption (kWh), and cooling benchmarks" },
-  { code: "IBR 1950", name: "Indian Boiler Regulations", desc: "High-pressure vessel certification, steam rating, and metallurgy test proof" },
+  { code: "BIS IS", name: "Bureau of Indian Standards", desc: "IS 1391 (ACs), IS 3854 (Switches), IS 2062 (Steel), IS 1239 (Piping), IS 694 (Cables)" },
+  { code: "FSSAI", name: "Food Safety & Standards", desc: "Statutory 14-digit licensing, AGMARK grading, allergen warnings, and Legal Metrology net quantities" },
+  { code: "BEE Star", name: "Bureau of Energy Efficiency", desc: "ISEER star rating calculations, power consumption (kWh/year), and cooling benchmarks" },
+  { code: "IBR 1950", name: "Indian Boiler Regulations", desc: "High-pressure steam certification, hydraulic pressure test verification, and ASME metallurgy trace" },
+]
+
+// ── FAQS ─────────────────────────────────────────────────────────────────────
+const FAQS = [
+  {
+    q: "How does Productकोश ensure specifications are grounded and never hallucinated?",
+    a: "Every product title is vectorized using TF-IDF and matched against an indexed corpus of 196 genuine Indian technical datasheet chunks. LLM extraction operates exclusively in structured JSON mode constrained to the retrieved context, and every extracted attribute is tagged with its source chunk ID and paragraph citation.",
+  },
+  {
+    q: "How are Indian pricing estimates calculated?",
+    a: "Pricing algorithms analyze real Indian B2B trade list prices, wholesale distributor rate cards, and FMCG maximum retail price (MRP) guidelines across major industrial regions (e.g. Mumbai, Pune, Delhi-NCR, Chennai) with deterministic boundary checks (Min < Max, positive non-zero).",
+  },
+  {
+    q: "Can enriched records be exported directly to ERP or PIM systems?",
+    a: "Yes. Enriched catalogs can be exported in standardized full JSON schema (including audit lineage and confidence scores) or flattened tabular CSV ready for direct ingestion into SAP, Oracle NetSuite, Akeneo, or Shopify.",
+  },
+  {
+    q: "What triggers a record to enter the Human-in-the-Loop Review Queue?",
+    a: "Records enter the Review Queue only if their extraction confidence falls below 0.85, if a mandatory category attribute is missing (e.g. missing FSSAI license for food products or missing pressure class for industrial valves), or if a boundary validation fails.",
+  },
 ]
 
 export function HomePage({ onEnter }: HomePageProps) {
@@ -245,7 +312,7 @@ export function HomePage({ onEnter }: HomePageProps) {
 
       </section>
 
-      {/* ── INTERACTIVE PRODUCT TRANSFORMATION ENGINE (FLUID & BORDERLESS) ─── */}
+      {/* ── INTERACTIVE PRODUCT TRANSFORMATION ENGINE ─────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-14 border-t border-neutral-100">
         
         {/* Header & Product Switcher */}
@@ -299,6 +366,11 @@ export function HomePage({ onEnter }: HomePageProps) {
               <div>
                 <span className="text-neutral-400 block mb-0.5">Matched Technical Document</span>
                 <span className="font-mono text-neutral-700 text-[11px]">{current.docId}</span>
+              </div>
+
+              <div>
+                <span className="text-neutral-400 block mb-0.5">GST HSN Classification</span>
+                <span className="font-mono text-neutral-900 font-semibold">{current.hsn}</span>
               </div>
 
               <div>
@@ -391,7 +463,45 @@ export function HomePage({ onEnter }: HomePageProps) {
 
       </section>
 
-      {/* ── CAPABILITIES SECTION (CLEAN NUMBERED EDITORIAL LIST) ───────────── */}
+      {/* ── TAXONOMY COVERAGE DIRECTORY ───────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+        
+        <div className="mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
+            Standard Taxonomy
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
+            Supported Product Domains
+          </h2>
+          <p className="text-xs text-neutral-500 mt-1 max-w-xl">
+            Productकोश maps Indian commercial catalogs into hierarchical UNSPSC standard codes with dedicated required domain schemas.
+          </p>
+        </div>
+
+        <div className="divide-y divide-neutral-100">
+          {TAXONOMY_FAMILIES.map((tax, idx) => (
+            <div key={idx} className="py-5 grid grid-cols-1 md:grid-cols-12 gap-4 text-xs items-start">
+              <div className="md:col-span-4 space-y-0.5">
+                <span className="font-mono text-[10px] font-semibold text-neutral-400">UNSPSC {tax.unspsc}</span>
+                <h3 className="font-bold text-sm text-neutral-950">{tax.segment}</h3>
+              </div>
+
+              <div className="md:col-span-4 space-y-0.5">
+                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Indexed Examples</span>
+                <p className="text-neutral-700 text-[11px] leading-relaxed">{tax.examples}</p>
+              </div>
+
+              <div className="md:col-span-4 space-y-0.5">
+                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Enriched Attributes</span>
+                <p className="text-neutral-500 text-[11px] leading-relaxed">{tax.attributes}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </section>
+
+      {/* ── CAPABILITIES SECTION ──────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-12">
@@ -447,6 +557,33 @@ export function HomePage({ onEnter }: HomePageProps) {
 
       </section>
 
+      {/* ── TECHNICAL FREQUENTLY ASKED QUESTIONS ─────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+        
+        <div className="mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
+            Technical Details
+          </span>
+          <h2 className="text-2xl font-bold text-neutral-950 mt-1">
+            Frequently Asked Questions
+          </h2>
+        </div>
+
+        <div className="divide-y divide-neutral-100">
+          {FAQS.map((faq, idx) => (
+            <div key={idx} className="py-5 space-y-2 text-xs">
+              <h3 className="font-bold text-sm text-neutral-950">
+                {faq.q}
+              </h3>
+              <p className="text-neutral-600 leading-relaxed max-w-3xl text-xs">
+                {faq.a}
+              </p>
+            </div>
+          ))}
+        </div>
+
+      </section>
+
       {/* ── BOTTOM CTA ──────────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-20 border-t border-neutral-100 text-center">
         <div className="max-w-xl mx-auto space-y-6">
@@ -480,7 +617,11 @@ export function HomePage({ onEnter }: HomePageProps) {
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 font-medium text-neutral-700">
             <img src="/logo.png" alt="ProductKOSH" className="w-4 h-4 rounded object-contain" />
-            <span>Productकोश — AI Product Intelligence Platform</span>
+            <span>Productकोश</span>
+          </div>
+
+          <div className="text-xs text-neutral-500 font-medium">
+            © a4kashhh
           </div>
 
           <div className="font-mono text-[11px] text-neutral-400">

@@ -592,8 +592,8 @@ export function LoginGate() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-200 bg-white py-4 text-center text-xs text-neutral-400 font-sans">
-        Productकोश — AI Product Intelligence for Indian Industrial Commerce
+      <footer className="border-t border-neutral-200 bg-white py-4 text-center text-xs text-neutral-500 font-sans">
+        © a4kashhh
       </footer>
 
     </div>
