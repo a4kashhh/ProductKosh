@@ -305,7 +305,7 @@ const TAXONOMY_FAMILIES = [
 const CAPABILITIES = [
   {
     num: "01",
-    title: "196-Chunk Vector Grounding",
+    title: "Datasheet Vector Grounding",
     tag: "Vector RAG",
     description: "Every generated specification anchors to an exact paragraph in genuine Indian OEM datasheets — completely eliminating hallucinations.",
   },
@@ -357,7 +357,7 @@ const STANDARDS = [
 const FAQS = [
   {
     q: "How does Productकोश ensure technical specifications are grounded and free from hallucinations?",
-    a: "Raw supplier strings (e.g. brand + product name) are vectorized using TF-IDF and matched against an indexed corpus of 196 genuine Indian OEM datasheets. The model operates in structured extraction mode strictly bound to retrieved technical context. Every attribute output includes its document ID and section paragraph citation.",
+    a: "Raw supplier strings (e.g. brand + product name) are vectorized using TF-IDF and matched against an indexed corpus of genuine Indian OEM datasheets. The model operates in structured extraction mode strictly bound to retrieved technical context. Every attribute output includes its document ID and section paragraph citation.",
   },
   {
     q: "How are Indian pricing estimates and GST HSN codes determined?",
@@ -478,8 +478,8 @@ export function HomePage({ onEnter }: HomePageProps) {
             <div className="text-xs text-neutral-500 mt-1">Grounded Lineage</div>
           </div>
           <div>
-            <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">196</div>
-            <div className="text-xs text-neutral-500 mt-1">Datasheet Chunks</div>
+            <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">UNSPSC</div>
+            <div className="text-xs text-neutral-500 mt-1">Standard Taxonomy</div>
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-emerald-600 font-mono">96.8%</div>
