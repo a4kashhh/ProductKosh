@@ -286,17 +286,9 @@ export function HomePage({ onEnter }: HomePageProps) {
           <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => setShowHelp(true)}
-              className="text-xs sm:text-sm font-medium text-neutral-500 hover:text-black transition-colors hidden xs:inline-block"
+              className="text-xs sm:text-sm font-medium text-neutral-500 hover:text-black transition-colors"
             >
               How it works
-            </button>
-
-            <button
-              onClick={() => onEnter("processor")}
-              className="text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-black text-white hover:bg-neutral-800 transition-all flex items-center gap-1.5 shadow-xs shrink-0"
-            >
-              <span>Dashboard</span>
-              <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
             <UserMenu />
