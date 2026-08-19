@@ -20,130 +20,6 @@ interface HomePageProps {
   onEnter: (tab: string) => void
 }
 
-// ── BESPOKE INDUSTRIAL SCHEMATIC BACKGROUND COMPONENT ────────────────────────
-function TechnicalSchematicBackground() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Subtle Warm Paper Glow in Hero */}
-      <div 
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] opacity-40 blur-3xl pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at top, rgba(251, 191, 36, 0.12) 0%, rgba(245, 158, 11, 0.04) 45%, transparent 75%)"
-        }}
-      />
-
-      {/* Engineering Drawing Geometric Grid & Blueprint Coordinate Lines */}
-      <svg
-        className="absolute inset-0 w-full h-full text-neutral-200/50"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          {/* 40px Precision Metric Grid */}
-          <pattern
-            id="metric-blueprint-grid"
-            width="48"
-            height="48"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 48 0 L 0 0 0 48"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.75"
-              strokeDasharray="2 4"
-            />
-            {/* Crosshair at intersections */}
-            <path
-              d="M 22 24 L 26 24 M 24 22 L 24 26"
-              stroke="currentColor"
-              strokeWidth="0.75"
-            />
-          </pattern>
-        </defs>
-
-        <rect width="100%" height="100%" fill="url(#metric-blueprint-grid)" opacity="0.65" />
-      </svg>
-
-      {/* Top Left: Industrial Valve & Piping Flow Vector Schematic */}
-      <div className="absolute top-28 left-4 lg:left-12 opacity-25 hidden sm:block">
-        <svg width="220" height="180" viewBox="0 0 220 180" fill="none" stroke="#525252" strokeWidth="0.85">
-          {/* Flanged Valve Silhouette Line Draft */}
-          <path d="M 30 50 L 70 90 L 70 10 M 70 90 L 110 50 L 110 130 L 70 90" strokeDasharray="3 3" />
-          <circle cx="70" cy="90" r="16" strokeWidth="1" />
-          <line x1="70" y1="40" x2="70" y2="10" strokeWidth="1.2" />
-          <line x1="50" y1="10" x2="90" y2="10" strokeWidth="1.5" />
-          <line x1="10" y1="50" x2="130" y2="50" strokeWidth="0.6" strokeDasharray="4 2" />
-          <text x="12" y="150" fill="#737373" fontSize="9" fontFamily="monospace" letterSpacing="0.05em">
-            CAD-REF: IS-1391 / IBR-1950
-          </text>
-          <text x="12" y="165" fill="#a3a3a3" fontSize="8" fontFamily="monospace">
-            DN50 · CLASS 150 · WCB
-          </text>
-        </svg>
-      </div>
-
-      {/* Top Right: Electrical Single-Line / Terminal Grid Schematic */}
-      <div className="absolute top-32 right-4 lg:right-12 opacity-25 hidden sm:block">
-        <svg width="220" height="180" viewBox="0 0 220 180" fill="none" stroke="#525252" strokeWidth="0.85">
-          {/* Electrical 3-Phase Bus & Feeder Vector Line */}
-          <line x1="20" y1="20" x2="190" y2="20" strokeWidth="1.2" />
-          <line x1="20" y1="35" x2="190" y2="35" strokeWidth="1.2" />
-          <line x1="20" y1="50" x2="190" y2="50" strokeWidth="1.2" />
-          <circle cx="60" cy="20" r="2.5" fill="#525252" />
-          <line x1="60" y1="20" x2="60" y2="90" />
-          <rect x="48" y="90" width="24" height="28" strokeWidth="1" />
-          <text x="52" y="108" fill="#525252" fontSize="8" fontFamily="monospace">16A</text>
-          <line x1="60" y1="118" x2="60" y2="140" />
-          <text x="90" y="150" fill="#737373" fontSize="9" fontFamily="monospace" letterSpacing="0.05em">
-            IS 3854 · 240V AC 50Hz
-          </text>
-          <text x="90" y="165" fill="#a3a3a3" fontSize="8" fontFamily="monospace">
-            FRLS COPPER · 1.1 kV GRADE
-          </text>
-        </svg>
-      </div>
-
-      {/* Left Margin Engineering Dimension Scale */}
-      <div className="absolute left-2 top-0 bottom-0 w-6 hidden md:flex flex-col justify-between py-24 opacity-30 text-[9px] font-mono text-neutral-400 select-none">
-        <div className="space-y-6">
-          <div>| 00</div>
-          <div>| 10</div>
-          <div>| 20</div>
-          <div>| 30</div>
-        </div>
-        <div className="rotate-90 origin-left text-[8px] tracking-widest text-neutral-400">
-          INDIAN INDUSTRIAL DATASHEET CORPUS
-        </div>
-        <div className="space-y-6">
-          <div>| 70</div>
-          <div>| 80</div>
-          <div>| 90</div>
-          <div>| 100</div>
-        </div>
-      </div>
-
-      {/* Right Margin Engineering Dimension Scale */}
-      <div className="absolute right-2 top-0 bottom-0 w-6 hidden md:flex flex-col justify-between py-24 opacity-30 text-[9px] font-mono text-neutral-400 select-none text-right">
-        <div className="space-y-6">
-          <div>00 |</div>
-          <div>10 |</div>
-          <div>20 |</div>
-          <div>30 |</div>
-        </div>
-        <div className="-rotate-90 origin-right text-[8px] tracking-widest text-neutral-400">
-          UNSPSC TAXONOMY v24.0
-        </div>
-        <div className="space-y-6">
-          <div>70 |</div>
-          <div>80 |</div>
-          <div>90 |</div>
-          <div>100 |</div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 // ── SAMPLE PRODUCTS FOR LIVE SPECIFICATION VIEWER ─────────────────────────────
 const DEMO_PRODUCTS = [
   {
@@ -385,10 +261,7 @@ export function HomePage({ onEnter }: HomePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white relative">
-      
-      {/* ── TECHNICAL ENGINEERING SCHEMATIC BACKGROUND ─────────────────────── */}
-      <TechnicalSchematicBackground />
+    <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white">
 
       {/* ── TOP NAVIGATION BAR ─────────────────────────────────────────────── */}
       <header className="border-b border-neutral-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
@@ -426,7 +299,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </header>
 
       {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-4xl mx-auto px-6 pt-16 pb-16 text-center">
+      <section className="max-w-4xl mx-auto px-6 pt-16 pb-16 text-center">
         
         {/* Brand Unit: Official Logo + Wordmark */}
         <div className="flex flex-col items-center gap-3 mb-6">
@@ -494,7 +367,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── LIVE INTERACTIVE PRODUCT GROUNDING ENGINE ──────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-14 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-6 py-14 border-t border-neutral-100">
         
         {/* Header & Product Switcher */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-200">
@@ -645,7 +518,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── TAXONOMY COVERAGE DIRECTORY ───────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-10">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
@@ -684,7 +557,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── ARCHITECTURAL CAPABILITIES ────────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-12">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
@@ -716,7 +589,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── NATIONAL COMPLIANCE SUMMARY ─────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-8">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
@@ -740,7 +613,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── TECHNICAL FREQUENTLY ASKED QUESTIONS ─────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-10">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
@@ -767,7 +640,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── BOTTOM CALL TO ACTION ────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-20 border-t border-neutral-100 text-center">
+      <section className="max-w-5xl mx-auto px-6 py-20 border-t border-neutral-100 text-center">
         <div className="max-w-xl mx-auto space-y-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
             Ready to enrich your Indian product catalog?
@@ -795,7 +668,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── MINIMAL FOOTER ───────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-neutral-100 py-8 text-center text-xs text-neutral-500 font-sans">
+      <footer className="border-t border-neutral-100 py-8 text-center text-xs text-neutral-500 font-sans">
         © a4kashhh
       </footer>
 
