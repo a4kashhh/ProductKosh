@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { Warp } from "@paper-design/shaders-react"
 import { Play, CheckCircle, AlertTriangle, FileText, Loader2, ArrowRight, Sparkles } from "lucide-react"
+import { API_BASE_URL } from "@/lib/api-config"
 
 interface BatchProcessorProps {
   onBatchComplete: () => void
@@ -46,7 +47,7 @@ export function BatchProcessorView({ onBatchComplete, onNavigateToQueue }: Batch
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/enrich/batch/status/${jobId}`)
+        const res = await fetch(`${API_BASE_URL}/api/enrich/batch/status/${jobId}`)
         if (res.ok) {
           const data = await res.json()
           setJobStatus(data)
@@ -66,7 +67,7 @@ export function BatchProcessorView({ onBatchComplete, onNavigateToQueue }: Batch
   const handleStartMockBatch = async () => {
     setIsStarting(true)
     try {
-      const res = await fetch("http://localhost:8000/api/enrich/batch", { method: "POST" })
+      const res = await fetch(`${API_BASE_URL}/api/enrich/batch`, { method: "POST" })
       if (res.ok) {
         const job = await res.json()
         setJobId(job.job_id)

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { Search, HelpCircle, CheckCircle, AlertTriangle, ShieldCheck, X, FileText, Info, Eye } from "lucide-react"
+import { API_BASE_URL } from "@/lib/api-config"
 
 interface ProductCatalogProps {
   onRefreshMetrics: () => void
@@ -19,7 +20,7 @@ export function ProductCatalogView({ onRefreshMetrics }: ProductCatalogProps) {
   const fetchProducts = async () => {
     setLoading(true)
     try {
-      let url = "http://localhost:8000/api/products"
+      let url = `${API_BASE_URL}/api/products`
       const params = new URLSearchParams()
       if (categoryFilter !== "all") params.append("category", categoryFilter)
       if (statusFilter !== "all") params.append("status", statusFilter)

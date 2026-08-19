@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { AlertTriangle, CheckCircle, Edit3, XCircle, CheckCheck, Loader2, UserCheck } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
+import { API_BASE_URL } from "@/lib/api-config"
 
 interface ReviewQueueProps {
   onRefreshMetrics: () => void
@@ -22,7 +23,7 @@ export function ReviewQueueView({ onRefreshMetrics }: ReviewQueueProps) {
   const fetchFlaggedProducts = async () => {
     setLoading(true)
     try {
-      const res = await fetch("http://localhost:8000/api/products?status=needs_review")
+      const res = await fetch(`${API_BASE_URL}/api/products?status=needs_review`)
       if (res.ok) {
         const data = await res.json()
         setFlaggedProducts(data)
@@ -53,7 +54,7 @@ export function ReviewQueueView({ onRefreshMetrics }: ReviewQueueProps) {
         comment: reviewComment || `${reviewerTag} ${action}ed field.`
       }
 
-      const res = await fetch(`http://localhost:8000/api/products/${product_id}/review`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${product_id}/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -79,7 +80,7 @@ export function ReviewQueueView({ onRefreshMetrics }: ReviewQueueProps) {
     try {
       for (const prod of flaggedProducts) {
         for (const field of prod.flagged_fields) {
-          await fetch(`http://localhost:8000/api/products/${prod.id}/review`, {
+          await fetch(`${API_BASE_URL}/api/products/${prod.id}/review`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

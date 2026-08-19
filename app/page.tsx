@@ -9,6 +9,7 @@ import { ProductCatalogView } from "@/components/ProductCatalogView"
 import { ReviewQueueView } from "@/components/ReviewQueueView"
 import { MetricsDashboardView } from "@/components/MetricsDashboardView"
 import { ArchitectureDiagramView } from "@/components/ArchitectureDiagramView"
+import { API_BASE_URL } from "@/lib/api-config"
 
 export default function Page() {
   const { isAuthenticated, openAuthModal } = useAuth()
@@ -19,7 +20,7 @@ export default function Page() {
 
   const fetchMetrics = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/metrics")
+      const res = await fetch(`${API_BASE_URL}/api/metrics`)
       if (res.ok) setMetrics(await res.json())
     } catch {}
   }
@@ -55,7 +56,7 @@ export default function Page() {
   }
 
   const handleExport = (format: string) => {
-    window.open(`http://localhost:8000/api/export?format=${format}`, "_blank")
+    window.open(`${API_BASE_URL}/api/export?format=${format}`, "_blank")
   }
 
   // ── 1. Homepage (Freely accessible with all details) ────────────────────
