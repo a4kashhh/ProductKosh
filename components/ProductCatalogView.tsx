@@ -67,7 +67,7 @@ export function ProductCatalogView({ onRefreshMetrics }: ProductCatalogProps) {
           <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search 200 Indian products (Tata Tea, Amul, Havells, Surf Excel, Voltas, L&T, Kirloskar)..."
+            placeholder="Search Indian products by name, brand, or SKU (Tata, Amul, Havells, Voltas, L&T)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-neutral-50 border border-neutral-200 rounded-xl pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-black"

@@ -219,15 +219,15 @@ export function HomePage({ onEnter }: HomePageProps) {
             onClick={() => onEnter("catalog")}
             className="px-6 py-3 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-semibold text-xs sm:text-sm transition-colors"
           >
-            Browse 200 Products
+            Explore Product Catalog
           </button>
         </div>
 
         {/* Stats Strip with Clean Dividers */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-12 mt-12 border-t border-neutral-100 text-left">
           <div>
-            <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">200</div>
-            <div className="text-xs text-neutral-500 mt-1">Indian Seed Products</div>
+            <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">100%</div>
+            <div className="text-xs text-neutral-500 mt-1">Grounded Lineage</div>
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-neutral-950 font-mono">196</div>
@@ -454,7 +454,7 @@ export function HomePage({ onEnter }: HomePageProps) {
             Ready to enrich your Indian product catalog?
           </h2>
           <p className="text-xs text-neutral-500 leading-relaxed">
-            Feed minimal inputs or run batch extraction across 200 pre-configured Indian industrial items.
+            Feed minimal supplier inputs or run automated batch extraction across Indian industrial and retail products.
           </p>
 
           <div className="flex justify-center gap-3">

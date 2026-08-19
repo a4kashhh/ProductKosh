@@ -120,10 +120,10 @@ export function BatchProcessorView({ onBatchComplete, onNavigateToQueue }: Batch
         {/* Title & Batch Execution Button */}
         <div className="space-y-2 max-w-lg">
           <h2 className="text-xl font-bold text-neutral-900 tracking-tight">
-            Indian Product Catalog Engine (200 Products)
+            Indian Product Catalog Enrichment Engine
           </h2>
           <p className="text-xs text-neutral-500 leading-relaxed">
-            Takes minimal Indian product inputs (Tata Tea, Amul, Havells, Surf Excel, Voltas, Asian Paints, L&T, Kirloskar) and enriches canonical records grounded across 40 spec sheets.
+            Takes minimal Indian product inputs (Tata, Amul, Havells, Voltas, Asian Paints, L&T, Kirloskar) and enriches canonical records grounded across technical datasheets.
           </p>
         </div>
 
@@ -135,12 +135,12 @@ export function BatchProcessorView({ onBatchComplete, onNavigateToQueue }: Batch
           {isStarting || (jobStatus && jobStatus.status === "running") ? (
             <>
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              Enriching 200 Products...
+              Enriching Products...
             </>
           ) : (
             <>
               <Play className="w-3.5 h-3.5 fill-current" />
-              Run Batch on 200 Products
+              Run Batch Enrichment
             </>
           )}
         </button>
@@ -238,7 +238,7 @@ export function BatchProcessorView({ onBatchComplete, onNavigateToQueue }: Batch
             ))
           ) : (
             <div className="text-neutral-400 italic py-8 text-center">
-              Batch processing console ready. Click "Run Batch on 200 Products" above to begin.
+              Batch processing console ready. Click &quot;Run Batch Enrichment&quot; above to begin.
             </div>
           )}
         </div>
