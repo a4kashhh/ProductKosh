@@ -613,21 +613,8 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── MINIMAL FOOTER ───────────────────────────────────────────────── */}
-      <footer className="border-t border-neutral-100 py-8 text-center text-xs text-neutral-400">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 font-medium text-neutral-700">
-            <img src="/logo.png" alt="ProductKOSH" className="w-4 h-4 rounded object-contain" />
-            <span>Productकोश</span>
-          </div>
-
-          <div className="text-xs text-neutral-500 font-medium">
-            © a4kashhh
-          </div>
-
-          <div className="font-mono text-[11px] text-neutral-400">
-            UNSPSC · BIS · FSSAI · BEE · IBR
-          </div>
-        </div>
+      <footer className="border-t border-neutral-100 py-8 text-center text-xs text-neutral-500 font-sans">
+        © a4kashhh
       </footer>
 
     </div>
