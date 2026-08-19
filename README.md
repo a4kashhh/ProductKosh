@@ -201,6 +201,9 @@ The backend documentation will be accessible at `http://localhost:8000/docs`.
 # In a separate terminal, install Node dependencies
 npm install
 
+# Optional: Set Google OAuth Client ID for live Google Workspace sign-in in .env.local
+# NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
+
 # Start the Next.js development server
 npm run dev
 ```

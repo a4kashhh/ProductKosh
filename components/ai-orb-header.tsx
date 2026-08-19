@@ -2,6 +2,7 @@
 
 import React from "react"
 import { Cpu, Database, AlertTriangle, FileSpreadsheet, BarChart3, Layers, Download, Home } from "lucide-react"
+import { UserMenu } from "@/components/UserMenu"
 
 interface HeaderProps {
   activeTab: string
@@ -115,6 +116,10 @@ export function AiOrbHeader({ activeTab, setActiveTab, metrics, onExport, onHome
             >
               <Download className="w-3 h-3" /> CSV
             </button>
+
+            <div className="h-4 w-px bg-neutral-200 mx-0.5" />
+
+            <UserMenu />
           </div>
 
         </div>

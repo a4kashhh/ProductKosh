@@ -2,7 +2,8 @@
 
 import React, { useState } from "react"
 import { HowItWorksPage } from "@/components/HowItWorksPage"
-import { ArrowRight, Layers, Search, ShieldCheck, BarChart3, GitBranch, ClipboardList } from "lucide-react"
+import { ArrowRight, Layers, Search, ShieldCheck, BarChart3, GitBranch, ClipboardList, HelpCircle } from "lucide-react"
+import { UserMenu } from "@/components/UserMenu"
 
 interface HomePageProps {
   onEnter: (tab: string) => void
@@ -82,8 +83,34 @@ export function HomePage({ onEnter }: HomePageProps) {
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans antialiased selection:bg-black selection:text-white">
 
+      {/* ── Top Bar ──────────────────────────────────────────────────────── */}
+      <header className="w-full border-b border-neutral-100 px-6 py-3.5 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <img
+            src="/logo.png"
+            alt="ProductKOSH Logo"
+            className="w-7 h-7 rounded-lg object-contain"
+          />
+          <span className="font-semibold text-sm tracking-tight text-neutral-900">
+            Product<span className="text-amber-500">कोश</span>
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowHelp(true)}
+            className="text-xs font-medium text-neutral-600 hover:text-black px-3 py-1.5 rounded-full hover:bg-neutral-100 transition-colors flex items-center gap-1.5"
+          >
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span>How it works</span>
+          </button>
+
+          <UserMenu />
+        </div>
+      </header>
+
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="flex flex-col items-center justify-center text-center pt-20 pb-16 px-6 gap-8">
+      <section className="flex flex-col items-center justify-center text-center pt-16 pb-16 px-6 gap-8">
 
         {/* Logo + Wordmark as one unit */}
         <div className="flex flex-col items-center gap-3">

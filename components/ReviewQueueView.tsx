@@ -1,13 +1,15 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { AlertTriangle, CheckCircle, Edit3, XCircle, CheckCheck, Loader2 } from "lucide-react"
+import { AlertTriangle, CheckCircle, Edit3, XCircle, CheckCheck, Loader2, UserCheck } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
 
 interface ReviewQueueProps {
   onRefreshMetrics: () => void
 }
 
 export function ReviewQueueView({ onRefreshMetrics }: ReviewQueueProps) {
+  const { user } = useAuth()
   const [flaggedProducts, setFlaggedProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null)
@@ -39,15 +41,16 @@ export function ReviewQueueView({ onRefreshMetrics }: ReviewQueueProps) {
     fetchFlaggedProducts()
   }, [])
 
-  const handleReviewAction = async (product_id: str, field_name: str, action: "accept" | "edit" | "reject") => {
+  const handleReviewAction = async (product_id: string, field_name: string, action: "accept" | "edit" | "reject") => {
     setIsSubmitting(true)
     try {
+      const reviewerTag = user ? `${user.name} (${user.role})` : "Human reviewer"
       const payload = {
         field_name: field_name,
         action: action,
         edited_value: action === "edit" ? editedValue : null,
         edited_unit: action === "edit" ? editedUnit : null,
-        comment: reviewComment || `Human reviewer ${action}ed field.`
+        comment: reviewComment || `${reviewerTag} ${action}ed field.`
       }
 
       const res = await fetch(`http://localhost:8000/api/products/${product_id}/review`, {
@@ -111,6 +114,12 @@ export function ReviewQueueView({ onRefreshMetrics }: ReviewQueueProps) {
           <p className="text-xs text-neutral-500">
             Reviewers inspect grounded source evidence and Accept, Edit inline, or Reject flagged fields.
           </p>
+          {user && (
+            <div className="pt-1 flex items-center gap-1.5 text-[11px] text-neutral-600 font-medium">
+              <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Auditing as: <strong className="text-black">{user.name}</strong> ({user.role})</span>
+            </div>
+          )}
         </div>
 
         {flaggedProducts.length > 0 && (
