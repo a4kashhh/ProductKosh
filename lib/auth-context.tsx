@@ -80,7 +80,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (fbUser) {
         const appUser = formatAppUser(fbUser)
         setUser(appUser)
-        localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+        try {
+          localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+        } catch (e) {}
       }
       setIsLoading(false)
     })
@@ -89,24 +91,61 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signInWithGoogle = async () => {
-    const res = await signInWithPopup(auth, googleProvider)
-    if (res.user) {
-      const appUser = formatAppUser(res.user, "google.com")
-      setUser(appUser)
-      setFirebaseUser(res.user)
-      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
-      setIsAuthModalOpen(false)
+    try {
+      const res = await signInWithPopup(auth, googleProvider)
+      if (res && res.user) {
+        const appUser = formatAppUser(res.user, "google.com")
+        setUser(appUser)
+        setFirebaseUser(res.user)
+        try {
+          localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+        } catch (e) {}
+        setIsAuthModalOpen(false)
+        return
+      }
+    } catch (err: any) {
+      console.warn("signInWithPopup returned notice:", err?.message || err)
+      // If IndexedDB closed or temporary error occurred but user was actually authenticated:
+      if (auth.currentUser) {
+        const appUser = formatAppUser(auth.currentUser, "google.com")
+        setUser(appUser)
+        setFirebaseUser(auth.currentUser)
+        try {
+          localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+        } catch (e) {}
+        setIsAuthModalOpen(false)
+        return
+      }
+      throw err
     }
   }
 
   const signInWithApple = async () => {
-    const res = await signInWithPopup(auth, appleProvider)
-    if (res.user) {
-      const appUser = formatAppUser(res.user, "apple.com")
-      setUser(appUser)
-      setFirebaseUser(res.user)
-      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
-      setIsAuthModalOpen(false)
+    try {
+      const res = await signInWithPopup(auth, appleProvider)
+      if (res && res.user) {
+        const appUser = formatAppUser(res.user, "apple.com")
+        setUser(appUser)
+        setFirebaseUser(res.user)
+        try {
+          localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+        } catch (e) {}
+        setIsAuthModalOpen(false)
+        return
+      }
+    } catch (err: any) {
+      console.warn("signInWithApple notice:", err?.message || err)
+      if (auth.currentUser) {
+        const appUser = formatAppUser(auth.currentUser, "apple.com")
+        setUser(appUser)
+        setFirebaseUser(auth.currentUser)
+        try {
+          localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+        } catch (e) {}
+        setIsAuthModalOpen(false)
+        return
+      }
+      throw err
     }
   }
 
@@ -116,7 +155,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const appUser = formatAppUser(res.user, "password")
       setUser(appUser)
       setFirebaseUser(res.user)
-      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+      try {
+        localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+      } catch (e) {}
       setIsAuthModalOpen(false)
     }
   }
@@ -131,7 +172,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (name) appUser.name = name
       setUser(appUser)
       setFirebaseUser(res.user)
-      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+      try {
+        localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+      } catch (e) {}
       setIsAuthModalOpen(false)
     }
   }
@@ -169,7 +212,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 providerId: "phone",
               }
               setUser(mockUser)
-              localStorage.setItem("productkosh_user_session", JSON.stringify(mockUser))
+              try {
+                localStorage.setItem("productkosh_user_session", JSON.stringify(mockUser))
+              } catch (e) {}
               setIsAuthModalOpen(false)
               return { user: null } as any
             } else {
@@ -190,7 +235,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const appUser = formatAppUser(res.user, "phone")
       setUser(appUser)
       setFirebaseUser(res.user)
-      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+      try {
+        localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
+      } catch (e) {}
       setIsAuthModalOpen(false)
     }
   }
@@ -201,7 +248,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (e) {}
     setUser(null)
     setFirebaseUser(null)
-    localStorage.removeItem("productkosh_user_session")
+    try {
+      localStorage.removeItem("productkosh_user_session")
+    } catch (e) {}
   }
 
   const openAuthModal = () => setIsAuthModalOpen(true)
