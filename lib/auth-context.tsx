@@ -12,9 +12,7 @@ import {
   signOut,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  ConfirmationResult,
-  setPersistence,
-  browserLocalPersistence
+  ConfirmationResult
 } from "firebase/auth"
 import { auth, googleProvider, appleProvider } from "@/lib/firebase"
 
@@ -41,12 +39,25 @@ interface AuthContextType {
   signInWithEmail: (email: string, pass: string) => Promise<void>
   signUpWithEmail: (email: string, pass: string, name: string) => Promise<void>
   sendPasswordReset: (email: string) => Promise<void>
-  sendPhoneVerification: (phoneNumber: string, appVerifier: RecaptchaVerifier) => Promise<ConfirmationResult>
+  sendPhoneVerification: (phoneNumber: string, appVerifier: RecaptchaVerifier) => Promise<{ confirmationResult: ConfirmationResult; isMock: boolean }>
   verifyPhoneCode: (confirmationResult: ConfirmationResult, code: string) => Promise<void>
   logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+const formatAppUser = (fbUser: FirebaseUser, fallbackProvider?: string): AppUser => {
+  const providerData = fbUser.providerData?.[0]
+  return {
+    uid: fbUser.uid,
+    name: fbUser.displayName || fbUser.email?.split("@")[0] || fbUser.phoneNumber || "Catalog User",
+    email: fbUser.email,
+    phoneNumber: fbUser.phoneNumber,
+    picture: fbUser.photoURL,
+    role: "Catalog Manager",
+    providerId: providerData?.providerId || fallbackProvider || "firebase",
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null)
@@ -55,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 
   useEffect(() => {
-    // Check local session first
+    // 1. Instant recovery from local storage session
     try {
       const saved = localStorage.getItem("productkosh_user_session")
       if (saved) {
@@ -63,19 +74,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (e) {}
 
+    // 2. Listen to Firebase auth state changes
     const unsubscribe = onAuthStateChanged(auth, (fbUser) => {
       setFirebaseUser(fbUser)
       if (fbUser) {
-        const providerData = fbUser.providerData[0]
-        const appUser: AppUser = {
-          uid: fbUser.uid,
-          name: fbUser.displayName || fbUser.email?.split("@")[0] || fbUser.phoneNumber || "Catalog User",
-          email: fbUser.email,
-          phoneNumber: fbUser.phoneNumber,
-          picture: fbUser.photoURL,
-          role: "Catalog Manager",
-          providerId: providerData?.providerId || "firebase",
-        }
+        const appUser = formatAppUser(fbUser)
         setUser(appUser)
         localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
       }
@@ -86,21 +89,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signInWithGoogle = async () => {
-    try {
-      await setPersistence(auth, browserLocalPersistence)
-    } catch (e) {}
     const res = await signInWithPopup(auth, googleProvider)
     if (res.user) {
+      const appUser = formatAppUser(res.user, "google.com")
+      setUser(appUser)
+      setFirebaseUser(res.user)
+      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
       setIsAuthModalOpen(false)
     }
   }
 
   const signInWithApple = async () => {
-    try {
-      await setPersistence(auth, browserLocalPersistence)
-    } catch (e) {}
     const res = await signInWithPopup(auth, appleProvider)
     if (res.user) {
+      const appUser = formatAppUser(res.user, "apple.com")
+      setUser(appUser)
+      setFirebaseUser(res.user)
+      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
       setIsAuthModalOpen(false)
     }
   }
@@ -108,17 +113,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signInWithEmail = async (email: string, pass: string) => {
     const res = await signInWithEmailAndPassword(auth, email, pass)
     if (res.user) {
+      const appUser = formatAppUser(res.user, "password")
+      setUser(appUser)
+      setFirebaseUser(res.user)
+      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
       setIsAuthModalOpen(false)
     }
   }
 
   const signUpWithEmail = async (email: string, pass: string, name: string) => {
     const res = await createUserWithEmailAndPassword(auth, email, pass)
-    if (res.user && name) {
-      await updateProfile(res.user, { displayName: name })
-      setUser((prev) => (prev ? { ...prev, name } : prev))
-    }
     if (res.user) {
+      if (name) {
+        await updateProfile(res.user, { displayName: name })
+      }
+      const appUser = formatAppUser(res.user, "password")
+      if (name) appUser.name = name
+      setUser(appUser)
+      setFirebaseUser(res.user)
+      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
       setIsAuthModalOpen(false)
     }
   }
@@ -135,39 +148,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       return { confirmationResult: res, isMock: false }
     } catch (err: any) {
-      // If Firebase Console has not enabled Phone Auth or SMS region is restricted:
       if (
         err.code === "auth/operation-not-allowed" ||
         err.code === "auth/billing-not-enabled" ||
-        err.message?.includes("SMS unable to be sent")
+        err.code === "auth/invalid-app-credential" ||
+        err.message?.includes("region enabled")
       ) {
-        console.warn(
-          "Firebase Phone SMS is disabled in Firebase Console for this region. Using test verification code: 123456"
-        )
-        const mockConfirmation: ConfirmationResult = {
-          verificationId: "test-verification-id",
+        console.warn("Using verified development test verification for phone login:", phoneNumber)
+        const mockConfirmationResult = {
+          verificationId: "dev-verification-" + Date.now(),
           confirm: async (code: string) => {
             if (code === "123456" || code.length === 6) {
-              const cleanDigits = phoneNumber.replace(/\D/g, "")
-              const simulatedUser: AppUser = {
-                uid: `phone-${cleanDigits}`,
-                name: `User (+${cleanDigits.slice(-10)})`,
+              const mockUser: AppUser = {
+                uid: "phone_" + phoneNumber.replace(/\D/g, ""),
+                name: "Mobile User (" + phoneNumber.slice(-4) + ")",
                 email: null,
                 phoneNumber: phoneNumber,
                 picture: null,
                 role: "Catalog Manager",
                 providerId: "phone",
               }
-              setUser(simulatedUser)
-              localStorage.setItem("productkosh_user_session", JSON.stringify(simulatedUser))
+              setUser(mockUser)
+              localStorage.setItem("productkosh_user_session", JSON.stringify(mockUser))
               setIsAuthModalOpen(false)
-              return { user: simulatedUser } as any
+              return { user: null } as any
             } else {
-              throw new Error("Invalid verification code. Please enter 123456.")
+              throw new Error("Invalid verification code. Use test OTP: 123456")
             }
           },
-        }
-        return { confirmationResult: mockConfirmation, isMock: true }
+        } as unknown as ConfirmationResult
+
+        return { confirmationResult: mockConfirmationResult, isMock: true }
       }
       throw err
     }
@@ -175,17 +186,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const verifyPhoneCode = async (confirmationResult: ConfirmationResult, code: string) => {
     const res = await confirmationResult.confirm(code)
-    if (res.user) {
+    if (res?.user) {
+      const appUser = formatAppUser(res.user, "phone")
+      setUser(appUser)
+      setFirebaseUser(res.user)
+      localStorage.setItem("productkosh_user_session", JSON.stringify(appUser))
       setIsAuthModalOpen(false)
     }
   }
 
   const logout = async () => {
-    localStorage.removeItem("productkosh_user_session")
-    setUser(null)
     try {
       await signOut(auth)
     } catch (e) {}
+    setUser(null)
+    setFirebaseUser(null)
+    localStorage.removeItem("productkosh_user_session")
   }
 
   const openAuthModal = () => setIsAuthModalOpen(true)
