@@ -69,7 +69,17 @@ export function LoginGate() {
       await signInWithGoogle()
     } catch (err: any) {
       console.error(err)
-      setErrorMessage(err.message || "Failed to sign in with Google.")
+      let msg = err.message || "Failed to sign in with Google."
+      if (err.code === "auth/operation-not-allowed") {
+        msg = "Google Sign-In is not enabled in your Firebase Console. Go to Firebase Console > Authentication > Sign-in method > Google > Enable."
+      } else if (err.code === "auth/unauthorized-domain") {
+        msg = "Domain unauthorized. Add 'localhost' in Firebase Console > Authentication > Settings > Authorized domains."
+      } else if (err.code === "auth/popup-closed-by-user") {
+        msg = "Sign-in window was closed. Please try again."
+      } else if (err.code === "auth/popup-blocked") {
+        msg = "Popup was blocked by your browser. Please allow popups for localhost."
+      }
+      setErrorMessage(msg)
     } finally {
       setIsLoading(false)
     }
@@ -83,7 +93,13 @@ export function LoginGate() {
       await signInWithApple()
     } catch (err: any) {
       console.error(err)
-      setErrorMessage(err.message || "Failed to sign in with Apple.")
+      let msg = err.message || "Failed to sign in with Apple."
+      if (err.code === "auth/operation-not-allowed") {
+        msg = "Apple Sign-In is not enabled in Firebase Console (requires Apple Developer Service ID and Key)."
+      } else if (err.code === "auth/popup-closed-by-user") {
+        msg = "Apple sign-in window was closed."
+      }
+      setErrorMessage(msg)
     } finally {
       setIsLoading(false)
     }
