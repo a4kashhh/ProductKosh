@@ -10,23 +10,138 @@ import {
   Check,
   HelpCircle,
   ShieldCheck,
-  Zap,
-  Activity,
-  Layers,
-  ChevronRight,
   FileCode2,
   Database,
-  Cpu,
-  Fingerprint,
-  Scale,
-  Sparkles,
-  ChevronDown,
   Building2,
-  PackageCheck
+  ExternalLink
 } from "lucide-react"
 
 interface HomePageProps {
   onEnter: (tab: string) => void
+}
+
+// ── BESPOKE INDUSTRIAL SCHEMATIC BACKGROUND COMPONENT ────────────────────────
+function TechnicalSchematicBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Subtle Warm Paper Glow in Hero */}
+      <div 
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] opacity-40 blur-3xl pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at top, rgba(251, 191, 36, 0.12) 0%, rgba(245, 158, 11, 0.04) 45%, transparent 75%)"
+        }}
+      />
+
+      {/* Engineering Drawing Geometric Grid & Blueprint Coordinate Lines */}
+      <svg
+        className="absolute inset-0 w-full h-full text-neutral-200/50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          {/* 40px Precision Metric Grid */}
+          <pattern
+            id="metric-blueprint-grid"
+            width="48"
+            height="48"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 48 0 L 0 0 0 48"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.75"
+              strokeDasharray="2 4"
+            />
+            {/* Crosshair at intersections */}
+            <path
+              d="M 22 24 L 26 24 M 24 22 L 24 26"
+              stroke="currentColor"
+              strokeWidth="0.75"
+            />
+          </pattern>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#metric-blueprint-grid)" opacity="0.65" />
+      </svg>
+
+      {/* Top Left: Industrial Valve & Piping Flow Vector Schematic */}
+      <div className="absolute top-28 left-4 lg:left-12 opacity-25 hidden sm:block">
+        <svg width="220" height="180" viewBox="0 0 220 180" fill="none" stroke="#525252" strokeWidth="0.85">
+          {/* Flanged Valve Silhouette Line Draft */}
+          <path d="M 30 50 L 70 90 L 70 10 M 70 90 L 110 50 L 110 130 L 70 90" strokeDasharray="3 3" />
+          <circle cx="70" cy="90" r="16" strokeWidth="1" />
+          <line x1="70" y1="40" x2="70" y2="10" strokeWidth="1.2" />
+          <line x1="50" y1="10" x2="90" y2="10" strokeWidth="1.5" />
+          <line x1="10" y1="50" x2="130" y2="50" strokeWidth="0.6" strokeDasharray="4 2" />
+          <text x="12" y="150" fill="#737373" fontSize="9" fontFamily="monospace" letterSpacing="0.05em">
+            CAD-REF: IS-1391 / IBR-1950
+          </text>
+          <text x="12" y="165" fill="#a3a3a3" fontSize="8" fontFamily="monospace">
+            DN50 · CLASS 150 · WCB
+          </text>
+        </svg>
+      </div>
+
+      {/* Top Right: Electrical Single-Line / Terminal Grid Schematic */}
+      <div className="absolute top-32 right-4 lg:right-12 opacity-25 hidden sm:block">
+        <svg width="220" height="180" viewBox="0 0 220 180" fill="none" stroke="#525252" strokeWidth="0.85">
+          {/* Electrical 3-Phase Bus & Feeder Vector Line */}
+          <line x1="20" y1="20" x2="190" y2="20" strokeWidth="1.2" />
+          <line x1="20" y1="35" x2="190" y2="35" strokeWidth="1.2" />
+          <line x1="20" y1="50" x2="190" y2="50" strokeWidth="1.2" />
+          <circle cx="60" cy="20" r="2.5" fill="#525252" />
+          <line x1="60" y1="20" x2="60" y2="90" />
+          <rect x="48" y="90" width="24" height="28" strokeWidth="1" />
+          <text x="52" y="108" fill="#525252" fontSize="8" fontFamily="monospace">16A</text>
+          <line x1="60" y1="118" x2="60" y2="140" />
+          <text x="90" y="150" fill="#737373" fontSize="9" fontFamily="monospace" letterSpacing="0.05em">
+            IS 3854 · 240V AC 50Hz
+          </text>
+          <text x="90" y="165" fill="#a3a3a3" fontSize="8" fontFamily="monospace">
+            FRLS COPPER · 1.1 kV GRADE
+          </text>
+        </svg>
+      </div>
+
+      {/* Left Margin Engineering Dimension Scale */}
+      <div className="absolute left-2 top-0 bottom-0 w-6 hidden md:flex flex-col justify-between py-24 opacity-30 text-[9px] font-mono text-neutral-400 select-none">
+        <div className="space-y-6">
+          <div>| 00</div>
+          <div>| 10</div>
+          <div>| 20</div>
+          <div>| 30</div>
+        </div>
+        <div className="rotate-90 origin-left text-[8px] tracking-widest text-neutral-400">
+          INDIAN INDUSTRIAL DATASHEET CORPUS
+        </div>
+        <div className="space-y-6">
+          <div>| 70</div>
+          <div>| 80</div>
+          <div>| 90</div>
+          <div>| 100</div>
+        </div>
+      </div>
+
+      {/* Right Margin Engineering Dimension Scale */}
+      <div className="absolute right-2 top-0 bottom-0 w-6 hidden md:flex flex-col justify-between py-24 opacity-30 text-[9px] font-mono text-neutral-400 select-none text-right">
+        <div className="space-y-6">
+          <div>00 |</div>
+          <div>10 |</div>
+          <div>20 |</div>
+          <div>30 |</div>
+        </div>
+        <div className="-rotate-90 origin-right text-[8px] tracking-widest text-neutral-400">
+          UNSPSC TAXONOMY v24.0
+        </div>
+        <div className="space-y-6">
+          <div>70 |</div>
+          <div>80 |</div>
+          <div>90 |</div>
+          <div>100 |</div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 // ── SAMPLE PRODUCTS FOR LIVE SPECIFICATION VIEWER ─────────────────────────────
@@ -34,123 +149,170 @@ const DEMO_PRODUCTS = [
   {
     id: "demo-1",
     brand: "L&T Valves",
-    name: "L&T Cast Steel Globe Valve 150#",
+    name: "L&T Cast Steel Globe Valve 150# (DN 50)",
     category: "Valves · Globe & Control (UNSPSC 40141600)",
     docId: "DOC-004_LT_GlobeValve_Class150.md",
     hsn: "8481.80.30",
     price: "₹14,500 – ₹18,200",
     confidence: "98.4%",
-    compliance: ["IBR 1950 (Boiler Steam)", "BS 1873 / API 598", "Make in India Tier-1"],
+    compliance: ["IBR 1950 (Indian Boiler Regulations)", "BS 1873 / API 598 Pressure Test", "Make in India Class-I Local"],
     specs: [
       { name: "Nominal Bore (DN)", value: "50 mm (2 Inch)", citation: "DOC-004 §1.2", conf: "99%" },
       { name: "Pressure Rating", value: "Class 150 (PN20 / 20 Bar)", citation: "DOC-004 §2.1", conf: "98%" },
       { name: "Body Material", value: "ASTM A216 Gr. WCB Cast Steel", citation: "DOC-004 §3.4", conf: "99%" },
       { name: "Trim Metallurgy", value: "13% Cr Steel (API Trim 8)", citation: "DOC-004 §3.7", conf: "96%" },
-      { name: "End Connection", value: "ASME B16.5 RF Raised Face", citation: "DOC-004 §4.1", conf: "97%" },
+      { name: "End Connection", value: "ASME B16.5 RF Raised Face Flanged", citation: "DOC-004 §4.1", conf: "97%" },
+      { name: "Testing Standard", value: "Hydro Body 30 Bar / Seat 22 Bar", citation: "DOC-004 §5.0", conf: "98%" },
     ],
   },
   {
     id: "demo-2",
     brand: "Voltas",
     name: "Voltas 1.5 Ton 5-Star Inverter Split AC",
-    category: "Air Conditioners · Split (UNSPSC 40101701)",
+    category: "Air Conditioners · Split Residential (UNSPSC 40101701)",
     docId: "DOC-008_Voltas_SplitAC_185V.md",
     hsn: "8415.10.10",
     price: "₹38,990 – ₹44,500",
     confidence: "97.8%",
-    compliance: ["BEE 5-Star (ISEER 5.05)", "BIS IS 1391 Part-2", "RoHS R32 Gas"],
+    compliance: ["BEE 5-Star (ISEER 5.05 Rating)", "BIS IS 1391 (Part 2) ISI Mark", "RoHS Zero-ODP R32 Gas"],
     specs: [
-      { name: "Cooling Capacity", value: "5100 Watts (1.5 TR)", citation: "DOC-008 §1.1", conf: "99%" },
-      { name: "Energy Rating", value: "BEE 5-Star · ISEER 5.05", citation: "DOC-008 §2.3", conf: "98%" },
-      { name: "Refrigerant", value: "R32 Eco-Friendly Zero ODP", citation: "DOC-008 §3.1", conf: "96%" },
-      { name: "Condenser Metallurgy", value: "100% Grooved Inner Tube Copper", citation: "DOC-008 §4.2", conf: "97%" },
-      { name: "Ambient Limit", value: "52°C Heavy Duty Tropicalized", citation: "DOC-008 §5.0", conf: "95%" },
+      { name: "Cooling Capacity", value: "5100 Watts (1.5 TR Rated)", citation: "DOC-008 §1.1", conf: "99%" },
+      { name: "Energy Efficiency", value: "ISEER 5.05 (Annual 580 kWh)", citation: "DOC-008 §2.3", conf: "98%" },
+      { name: "Refrigerant Gas", value: "R32 Eco-Friendly Refrigerant", citation: "DOC-008 §3.1", conf: "96%" },
+      { name: "Condenser Metallurgy", value: "100% Inner-Grooved Copper Coil", citation: "DOC-008 §4.2", conf: "97%" },
+      { name: "Ambient Performance", value: "Up to 52°C Heavy Duty Cooling", citation: "DOC-008 §5.0", conf: "95%" },
+      { name: "Operating Voltage", value: "145V – 270V Stabilizer-Free", citation: "DOC-008 §5.3", conf: "98%" },
     ],
   },
   {
     id: "demo-3",
-    brand: "Adani Wilmar",
-    name: "Fortune Kachi Ghani Mustard Oil 1L",
-    category: "Edible Oils & Fats (UNSPSC 50151513)",
-    docId: "DOC-019_Fortune_MustardOil.md",
-    hsn: "1514.91.20",
-    price: "₹145 – ₹175",
-    confidence: "96.5%",
-    compliance: ["FSSAI Lic. 10013021000853", "AGMARK Grade-1", "Legal Metrology 2009"],
+    brand: "Polycab",
+    name: "Polycab 4.0 Sq.mm 3-Core FRLS Industrial Cable",
+    category: "Power Cables · Low Voltage (UNSPSC 26121600)",
+    docId: "DOC-012_Polycab_FRLS_IndustrialCables.md",
+    hsn: "8544.49.99",
+    price: "₹185 – ₹225 per Metre",
+    confidence: "98.7%",
+    compliance: ["BIS IS 694:2010 with ISI Mark", "IEC 60332 Flame Retardant", "CE & RoHS Certified"],
     specs: [
-      { name: "Net Quantity", value: "1000 mL (1 Litre Pouch)", citation: "DOC-019 §1.0", conf: "99%" },
-      { name: "Extraction Method", value: "Cold Pressed Traditional Kolhu", citation: "DOC-019 §2.1", conf: "96%" },
-      { name: "Smoke Point", value: "250°C High Thermal Stability", citation: "DOC-019 §3.2", conf: "94%" },
-      { name: "Pungency Index", value: "High Allyl Isothiocyanate", citation: "DOC-019 §4.1", conf: "93%" },
-      { name: "Fortification", value: "Vitamin A (25 IU) & D2 (4.5 IU)", citation: "DOC-019 §5.1", conf: "98%" },
+      { name: "Conductor Material", value: "EC Grade Plain Annealed Copper (IS 8130)", citation: "DOC-012 §1.1", conf: "99%" },
+      { name: "Nominal Area", value: "4.0 Sq.mm (56/0.3 mm Stranding)", citation: "DOC-012 §1.4", conf: "99%" },
+      { name: "Insulation Type", value: "FRLS PVC Compound (IS 5831 Type A)", citation: "DOC-012 §2.0", conf: "97%" },
+      { name: "Voltage Rating", value: "1100 Volts (1.1 kV Grade)", citation: "DOC-012 §3.1", conf: "99%" },
+      { name: "Current Capacity", value: "29 Amps (In Conduit @ 40°C)", citation: "DOC-012 §4.2", conf: "96%" },
+      { name: "Oxygen Index", value: "> 29% (Critical Oxygen Index)", citation: "DOC-012 §5.1", conf: "97%" },
     ],
   },
   {
     id: "demo-4",
+    brand: "Kirloskar",
+    name: "Kirloskar KDS-214+ Monobloc Centrifugal Pump (2 HP)",
+    category: "Pumps · Centrifugal Monobloc (UNSPSC 40151503)",
+    docId: "DOC-016_Kirloskar_MonoblocPump_KDS.md",
+    hsn: "8413.70.10",
+    price: "₹16,800 – ₹19,500",
+    confidence: "97.5%",
+    compliance: ["BIS IS 8472 & IS 9079 (ISI Mark)", "BEE Energy Star Rated", "IP55 Enclosure Protection"],
+    specs: [
+      { name: "Power Rating", value: "2.0 HP (1.5 kW) 3-Phase 415V", citation: "DOC-016 §1.0", conf: "99%" },
+      { name: "Discharge Capacity", value: "450 – 120 Litres per Minute", citation: "DOC-016 §2.1", conf: "97%" },
+      { name: "Head Range", value: "12 – 24 Metres (Total Dynamic Head)", citation: "DOC-016 §2.3", conf: "98%" },
+      { name: "Pipe Sizes (Suct × Del)", value: "50 mm × 50 mm (2 Inch × 2 Inch)", citation: "DOC-016 §3.0", conf: "99%" },
+      { name: "Impeller Material", value: "Cast Iron Gr. FG 200 / Bronze Trim", citation: "DOC-016 §4.1", conf: "96%" },
+      { name: "Insulation Class", value: "Class F with B Temperature Rise", citation: "DOC-016 §5.2", conf: "98%" },
+    ],
+  },
+  {
+    id: "demo-5",
+    brand: "Fortune",
+    name: "Fortune Kachi Ghani Pure Mustard Oil (1L Pouch)",
+    category: "Edible Oils & Commodities (UNSPSC 50151513)",
+    docId: "DOC-019_Fortune_MustardOil.md",
+    hsn: "1514.91.20",
+    price: "₹145 – ₹175",
+    confidence: "96.5%",
+    compliance: ["FSSAI Central Lic. 10013021000853", "AGMARK Grade-1 Certified", "Legal Metrology Packaged Commodities"],
+    specs: [
+      { name: "Net Quantity", value: "1000 mL (1 Litre Standard Pouch)", citation: "DOC-019 §1.0", conf: "99%" },
+      { name: "Extraction Method", value: "Cold-Pressed Traditional Kolhu Process", citation: "DOC-019 §2.1", conf: "96%" },
+      { name: "Smoke Point", value: "250°C (High Heat Indian Cooking)", citation: "DOC-019 §3.2", conf: "94%" },
+      { name: "Pungency Compound", value: "Natural Allyl Isothiocyanate > 0.28%", citation: "DOC-019 §4.1", conf: "93%" },
+      { name: "Fortification", value: "Enriched with Vitamin A & D2 (+F Logo)", citation: "DOC-019 §5.1", conf: "98%" },
+      { name: "Shelf Life", value: "9 Months from Packaging Date", citation: "DOC-019 §6.0", conf: "97%" },
+    ],
+  },
+  {
+    id: "demo-6",
     brand: "Havells",
     name: "Havells Fabio 16A 1-Way Modular Switch",
-    category: "Wiring Devices (UNSPSC 39122200)",
+    category: "Wiring Devices & Switches (UNSPSC 39122200)",
     docId: "DOC-014_Havells_FabioSwitches.md",
     hsn: "8536.50.20",
     price: "₹125 – ₹160",
     confidence: "98.1%",
-    compliance: ["BIS IS 3854:1997", "Glow Wire 850°C", "RoHS Heavy Metal Free"],
+    compliance: ["BIS IS 3854:1997 with ISI Mark", "Glow Wire 850°C Flame Retardant", "RoHS Heavy Metal Free"],
     specs: [
-      { name: "Rating", value: "16A, 240V AC 50Hz Heavy Duty", citation: "DOC-014 §1.1", conf: "99%" },
-      { name: "Contact Metallurgy", value: "Pure Silver Inlaid Brass Contacts", citation: "DOC-014 §2.4", conf: "96%" },
-      { name: "Mechanism", value: "Silent Snap-Action Rocker", citation: "DOC-014 §3.1", conf: "97%" },
-      { name: "Grid Size", value: "1 Module (Standard 1M)", citation: "DOC-014 §4.0", conf: "98%" },
-      { name: "Endurance", value: "100,000+ Operational Cycles", citation: "DOC-014 §5.2", conf: "95%" },
+      { name: "Electrical Rating", value: "16A, 240V AC 50Hz Heavy Duty", citation: "DOC-014 §1.1", conf: "99%" },
+      { name: "Contact Metallurgy", value: "Pure Silver Inlaid Brass Terminals", citation: "DOC-014 §2.4", conf: "96%" },
+      { name: "Switching Action", value: "Silent Snap-Action Rocker Mechanism", citation: "DOC-014 §3.1", conf: "97%" },
+      { name: "Module Grid Size", value: "1 Module (Standard 1M Indian Grid)", citation: "DOC-014 §4.0", conf: "98%" },
+      { name: "Mechanical Endurance", value: "100,000+ Operational Cycles", citation: "DOC-014 §5.2", conf: "95%" },
+      { name: "Housing Material", value: "UV Stabilized Polycarbonate", citation: "DOC-014 §5.4", conf: "98%" },
     ],
   },
 ]
 
-// ── TAXONOMY FAMILIES ────────────────────────────────────────────────────────
+// ── TAXONOMY DOMAINS ─────────────────────────────────────────────────────────
 const TAXONOMY_FAMILIES = [
   {
-    segment: "Industrial & Process Equipment",
+    segment: "Process Equipment & Fluid Handling",
     unspsc: "40000000",
     examples: "L&T Valves, Kirloskar Pumps, Forbes Marshall Steam Traps, Jindal Seamless Pipes",
-    attributes: "Pressure Rating (PN/Class), Body Metallurgy (WCB/CF8M), Flow Coeff (Cv), End Flanges",
+    attributes: "Pressure Class (PN / Rating), Body Metallurgy (WCB / CF8M), Flow Coefficient (Cv), End Flanges (ASME B16.5)",
+    standards: "IBR 1950, ASME B16.34, API 598, BS 1873",
   },
   {
-    segment: "Electrical, Power & Grid Systems",
+    segment: "Electrical, Switchgear & Cables",
     unspsc: "39000000",
-    examples: "Havells Fabio Switches, Polycab FRLS Industrial Cables, ABB Switchgear, Crompton Motors",
-    attributes: "Voltage (V), Current (A), Breaking Capacity (kA), Flame Retardancy (IS 694 / IS 3854)",
+    examples: "Havells Fabio Switches, Polycab FRLS Industrial Cables, ABB Switchgear, Crompton Induction Motors",
+    attributes: "Voltage Grade (1.1 kV), Conductor Stranding, Breaking Capacity (kA), Flame Retardancy (FRLS / Zero Halogen)",
+    standards: "BIS IS 694, IS 3854, IS 13947, IEC 60332",
   },
   {
-    segment: "HVAC & Thermal Comfort",
+    segment: "HVAC & Thermal Comfort Systems",
     unspsc: "40100000",
-    examples: "Voltas Inverter Split ACs, Blue Star Chillers, Havells Ceiling Fans, Racold Geysers",
-    attributes: "Cooling Capacity (kW/TR), ISEER BEE Star Rating, Refrigerant Type, Copper Tube Gauge",
+    examples: "Voltas Inverter Split ACs, Blue Star Heavy Chillers, Havells Industrial Fans, Racold Commercial Geysers",
+    attributes: "Cooling Capacity (kW / TR), ISEER BEE Star Rating, Annual Energy (kWh), Copper Tube Gauge, Refrigerant Type",
+    standards: "BEE Star Labelling, BIS IS 1391, RoHS Compliance",
   },
   {
-    segment: "Food, Commodities & FMCG",
+    segment: "Food, Commodities & FMCG Products",
     unspsc: "50000000",
-    examples: "Tata Tea Gold, Fortune Mustard Oil, Amul Butter, Dabur Pure Honey, Surf Excel",
-    attributes: "FSSAI Registration Lic, Net Quantity (g/mL), Grade (AGMARK), Fortification (+F)",
+    examples: "Tata Tea Gold, Fortune Mustard Oil, Amul Butter, Dabur Pure Honey, Surf Excel Easy Wash",
+    attributes: "14-digit FSSAI License, Net Quantity (g / mL / kg), AGMARK Grade, Nutritional Fortification (+F)",
+    standards: "FSS (Packaging & Labelling) Reg 2018, Legal Metrology Act",
   },
   {
-    segment: "Construction & Surface Engineering",
+    segment: "Construction & Infrastructure Steel",
     unspsc: "30000000",
-    examples: "Asian Paints Royale, Tata Tiscon TMT 550D Rebars, UltraTech Cement, Supreme PVC",
-    attributes: "Tensile Strength (MPa), BIS IS 1786/IS 2062, VOC Content (g/L), Setting Time",
+    examples: "Tata Tiscon TMT 550D Rebars, Asian Paints Royale, UltraTech Cement, Supreme Commercial PVC",
+    attributes: "Yield Strength (0.2% Proof Stress), Elongation (%), Carbon Equivalent (CE), BIS ISI Mark",
+    standards: "BIS IS 1786 (TMT), IS 2062 (Steel), IS 1239 (Pipes)",
   },
 ]
 
-// ── ARCHITECTURE CAPABILITIES ────────────────────────────────────────────────
+// ── CORE ARCHITECTURAL PRINCIPLES ────────────────────────────────────────────
 const CAPABILITIES = [
   {
     num: "01",
     title: "196-Chunk Vector Grounding",
     tag: "Vector RAG",
-    description: "Every generated specification anchors to an exact paragraph in genuine Indian datasheets — completely eliminating hallucinations.",
+    description: "Every generated specification anchors to an exact paragraph in genuine Indian OEM datasheets — completely eliminating hallucinations.",
   },
   {
     num: "02",
     title: "Deterministic Rule Engine",
-    tag: "Category-Aware",
+    tag: "Category-Aware Checks",
     description: "Automated sanity checks enforce physical constraints (e.g. pressure 0-700 Bar, temperature bounds) and required attributes for each family.",
   },
   {
@@ -169,29 +331,45 @@ const CAPABILITIES = [
 
 // ── REGULATORY MATRIX ────────────────────────────────────────────────────────
 const STANDARDS = [
-  { code: "BIS IS", name: "Bureau of Indian Standards", desc: "IS 1391 (ACs), IS 3854 (Switches), IS 2062 (Steel), IS 1239 (Piping), IS 694 (Cables)" },
-  { code: "FSSAI", name: "Food Safety & Standards", desc: "Statutory 14-digit licensing, AGMARK grading, allergen warnings, and Legal Metrology net quantities" },
-  { code: "BEE Star", name: "Bureau of Energy Efficiency", desc: "ISEER star rating calculations, power consumption (kWh/year), and cooling benchmarks" },
-  { code: "IBR 1950", name: "Indian Boiler Regulations", desc: "High-pressure steam certification, hydraulic pressure test verification, and ASME metallurgy trace" },
+  { 
+    code: "BIS IS", 
+    name: "Bureau of Indian Standards", 
+    desc: "Validates ISI certification marks across IS 1391 (Room ACs), IS 3854 (Switches), IS 694 (Cables), IS 2062 (Steel), and IS 1239 (Pipes)." 
+  },
+  { 
+    code: "FSSAI", 
+    name: "Food Safety & Standards Authority", 
+    desc: "Enforces statutory 14-digit license validation, mandatory allergen declarations, AGMARK grading, and Legal Metrology net quantity rules." 
+  },
+  { 
+    code: "BEE Star", 
+    name: "Bureau of Energy Efficiency", 
+    desc: "Extracts and checks ISEER cooling metrics, star ratings, and annual energy consumption (kWh) against national conservation tables." 
+  },
+  { 
+    code: "IBR 1950", 
+    name: "Indian Boiler Regulations", 
+    desc: "Verifies high-pressure steam certifications, hydraulic test pressure ratios (1.5× rating), and Form III-C metallurgy compliance." 
+  },
 ]
 
-// ── FAQS ─────────────────────────────────────────────────────────────────────
+// ── TECHNICAL FREQUENTLY ASKED QUESTIONS ─────────────────────────────────────
 const FAQS = [
   {
-    q: "How does Productकोश ensure specifications are grounded and never hallucinated?",
-    a: "Every product title is vectorized using TF-IDF and matched against an indexed corpus of 196 genuine Indian technical datasheet chunks. LLM extraction operates exclusively in structured JSON mode constrained to the retrieved context, and every extracted attribute is tagged with its source chunk ID and paragraph citation.",
+    q: "How does Productकोश ensure technical specifications are grounded and free from hallucinations?",
+    a: "Raw supplier strings (e.g. brand + product name) are vectorized using TF-IDF and matched against an indexed corpus of 196 genuine Indian OEM datasheets. The model operates in structured extraction mode strictly bound to retrieved technical context. Every attribute output includes its document ID and section paragraph citation.",
   },
   {
-    q: "How are Indian pricing estimates calculated?",
-    a: "Pricing algorithms analyze real Indian B2B trade list prices, wholesale distributor rate cards, and FMCG maximum retail price (MRP) guidelines across major industrial regions (e.g. Mumbai, Pune, Delhi-NCR, Chennai) with deterministic boundary checks (Min < Max, positive non-zero).",
+    q: "How are Indian pricing estimates and GST HSN codes determined?",
+    a: "Pricing models evaluate real Indian B2B wholesale trade price lists, distributor rate sheets, and retail MRP guidelines with physical sanity checks (Min Price < Max Price, positive non-zero values). 8-digit GST HSN codes are mapped to standard CBIC tariff schedules.",
   },
   {
-    q: "Can enriched records be exported directly to ERP or PIM systems?",
-    a: "Yes. Enriched catalogs can be exported in standardized full JSON schema (including audit lineage and confidence scores) or flattened tabular CSV ready for direct ingestion into SAP, Oracle NetSuite, Akeneo, or Shopify.",
+    q: "Can enriched records be directly ingested into ERP, GeM, or PIM platforms?",
+    a: "Yes. Enriched catalogs can be exported either in full structured JSON format (containing full audit lineage and field-by-field confidence scores) or flattened tabular CSV formatted for direct import into SAP, Oracle NetSuite, Akeneo, Shopify, or GeM tender templates.",
   },
   {
-    q: "What triggers a record to enter the Human-in-the-Loop Review Queue?",
-    a: "Records enter the Review Queue only if their extraction confidence falls below 0.85, if a mandatory category attribute is missing (e.g. missing FSSAI license for food products or missing pressure class for industrial valves), or if a boundary validation fails.",
+    q: "What conditions cause a product record to enter the Review Queue?",
+    a: "A product is flagged for human review if its overall extraction confidence falls below 0.85, if a mandatory category-specific parameter is missing (e.g. missing FSSAI license for food or missing pressure class for industrial valves), or if a numerical boundary check fails.",
   },
 ]
 
@@ -207,9 +385,12 @@ export function HomePage({ onEnter }: HomePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white text-neutral-900 font-sans antialiased selection:bg-black selection:text-white relative">
+      
+      {/* ── TECHNICAL ENGINEERING SCHEMATIC BACKGROUND ─────────────────────── */}
+      <TechnicalSchematicBackground />
 
-      {/* ── TOP HEADER ───────────────────────────────────────────────────── */}
+      {/* ── TOP NAVIGATION BAR ─────────────────────────────────────────────── */}
       <header className="border-b border-neutral-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -245,9 +426,9 @@ export function HomePage({ onEnter }: HomePageProps) {
       </header>
 
       {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-6 pt-16 pb-16 text-center">
+      <section className="relative z-10 max-w-4xl mx-auto px-6 pt-16 pb-16 text-center">
         
-        {/* Brand Unit: Logo + Wordmark */}
+        {/* Brand Unit: Official Logo + Wordmark */}
         <div className="flex flex-col items-center gap-3 mb-6">
           <img
             src="/logo.png"
@@ -263,13 +444,13 @@ export function HomePage({ onEnter }: HomePageProps) {
           />
         </div>
 
-        {/* Hero Title */}
+        {/* Hero Headline */}
         <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-neutral-950 leading-[1.15] mb-4">
-          Turn minimal product titles into verified, commerce-ready records.
+          Grounded Product Catalog Intelligence for Indian Industry & Commerce
         </h1>
 
-        <p className="text-sm sm:text-base text-neutral-500 leading-relaxed max-w-xl mx-auto mb-8">
-          Grounded in real Indian technical datasheets, mapped to standard UNSPSC taxonomy, and validated against BIS, FSSAI, BEE, and IBR standards.
+        <p className="text-sm sm:text-base text-neutral-500 leading-relaxed max-w-2xl mx-auto mb-8">
+          Takes minimal supplier descriptions and enriches complete, specification-accurate catalog records — verified against genuine OEM technical datasheets, mapped to UNSPSC taxonomy, and audited for BIS, FSSAI, BEE, and IBR compliance.
         </p>
 
         {/* Action Buttons */}
@@ -312,21 +493,21 @@ export function HomePage({ onEnter }: HomePageProps) {
 
       </section>
 
-      {/* ── INTERACTIVE PRODUCT TRANSFORMATION ENGINE ─────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-14 border-t border-neutral-100">
+      {/* ── LIVE INTERACTIVE PRODUCT GROUNDING ENGINE ──────────────────────── */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-14 border-t border-neutral-100">
         
         {/* Header & Product Switcher */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-200">
           <div>
             <div className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1 font-mono">
-              Live Interactive Grounding
+              Live Specification Verification
             </div>
             <h2 className="text-2xl font-bold text-neutral-950">
               Product Transformation Engine
             </h2>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
             {DEMO_PRODUCTS.map((prod, idx) => (
               <button
                 key={prod.id}
@@ -343,10 +524,10 @@ export function HomePage({ onEnter }: HomePageProps) {
           </div>
         </div>
 
-        {/* Clean Open Two-Column Surface */}
+        {/* Clean Open Two-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* Left Column: Product Summary */}
+          {/* Left Column: Product Metadata */}
           <div className="lg:col-span-5 space-y-6">
             <div>
               <span className="text-[11px] font-mono font-semibold text-neutral-400 uppercase">
@@ -364,7 +545,7 @@ export function HomePage({ onEnter }: HomePageProps) {
               </div>
 
               <div>
-                <span className="text-neutral-400 block mb-0.5">Matched Technical Document</span>
+                <span className="text-neutral-400 block mb-0.5">Matched Technical Datasheet</span>
                 <span className="font-mono text-neutral-700 text-[11px]">{current.docId}</span>
               </div>
 
@@ -374,7 +555,7 @@ export function HomePage({ onEnter }: HomePageProps) {
               </div>
 
               <div>
-                <span className="text-neutral-400 block mb-0.5">Overall Extraction Confidence</span>
+                <span className="text-neutral-400 block mb-0.5">Extraction Confidence Score</span>
                 <span className="inline-flex items-center gap-1 font-mono font-bold text-emerald-600 text-sm">
                   <CheckCircle2 className="w-4 h-4" />
                   {current.confidence}
@@ -393,7 +574,7 @@ export function HomePage({ onEnter }: HomePageProps) {
             </div>
           </div>
 
-          {/* Right Column: Clean Spec Rows */}
+          {/* Right Column: Grounded Specification Rows */}
           <div className="lg:col-span-7">
             
             {/* View Switcher */}
@@ -464,14 +645,14 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── TAXONOMY COVERAGE DIRECTORY ───────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-10">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Standard Taxonomy
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
-            Supported Product Domains
+            Supported Product Domains & Standards
           </h2>
           <p className="text-xs text-neutral-500 mt-1 max-w-xl">
             Productकोश maps Indian commercial catalogs into hierarchical UNSPSC standard codes with dedicated required domain schemas.
@@ -484,15 +665,16 @@ export function HomePage({ onEnter }: HomePageProps) {
               <div className="md:col-span-4 space-y-0.5">
                 <span className="font-mono text-[10px] font-semibold text-neutral-400">UNSPSC {tax.unspsc}</span>
                 <h3 className="font-bold text-sm text-neutral-950">{tax.segment}</h3>
+                <span className="text-[10px] text-neutral-400 font-mono block pt-1">{tax.standards}</span>
               </div>
 
               <div className="md:col-span-4 space-y-0.5">
-                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Indexed Examples</span>
+                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Indexed Indian Brands</span>
                 <p className="text-neutral-700 text-[11px] leading-relaxed">{tax.examples}</p>
               </div>
 
               <div className="md:col-span-4 space-y-0.5">
-                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Enriched Attributes</span>
+                <span className="text-neutral-400 text-[10px] uppercase font-mono block">Mandatory Parameters</span>
                 <p className="text-neutral-500 text-[11px] leading-relaxed">{tax.attributes}</p>
               </div>
             </div>
@@ -501,8 +683,8 @@ export function HomePage({ onEnter }: HomePageProps) {
 
       </section>
 
-      {/* ── CAPABILITIES SECTION ──────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      {/* ── ARCHITECTURAL CAPABILITIES ────────────────────────────────────── */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-12">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
@@ -534,13 +716,13 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── NATIONAL COMPLIANCE SUMMARY ─────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-8">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Regulatory Framework
           </span>
-          <h2 className="text-2xl font-bold text-neutral-950 mt-1">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
             Mapped National Standards
           </h2>
         </div>
@@ -558,13 +740,13 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── TECHNICAL FREQUENTLY ASKED QUESTIONS ─────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-16 border-t border-neutral-100">
         
         <div className="mb-10">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 font-mono">
             Technical Details
           </span>
-          <h2 className="text-2xl font-bold text-neutral-950 mt-1">
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 mt-1">
             Frequently Asked Questions
           </h2>
         </div>
@@ -584,8 +766,8 @@ export function HomePage({ onEnter }: HomePageProps) {
 
       </section>
 
-      {/* ── BOTTOM CTA ──────────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-20 border-t border-neutral-100 text-center">
+      {/* ── BOTTOM CALL TO ACTION ────────────────────────────────────────── */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 py-20 border-t border-neutral-100 text-center">
         <div className="max-w-xl mx-auto space-y-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
             Ready to enrich your Indian product catalog?
@@ -613,7 +795,7 @@ export function HomePage({ onEnter }: HomePageProps) {
       </section>
 
       {/* ── MINIMAL FOOTER ───────────────────────────────────────────────── */}
-      <footer className="border-t border-neutral-100 py-8 text-center text-xs text-neutral-500 font-sans">
+      <footer className="relative z-10 border-t border-neutral-100 py-8 text-center text-xs text-neutral-500 font-sans">
         © a4kashhh
       </footer>
 
