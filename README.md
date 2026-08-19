@@ -1,176 +1,120 @@
 # ProductKosh (Productकोश)
 
-ProductKosh is an enterprise-grade product intelligence platform engineered specifically for the Indian commerce and manufacturing landscape. It automates the transformation of minimal, unstructured product inputs (such as a brand name and basic title) into deeply enriched, validated, and commerce-ready catalog records mapped to standard UNSPSC taxonomy, realistic Indian market (INR) pricing and national compliance standards.
+> **Grounded Product Catalog Intelligence for Indian Industry & Commerce**
+
+[![Live Demo](https://img.shields.io/badge/Website-productkosh.vercel.app-black?style=flat-square&logo=vercel)](https://productkosh.vercel.app/)
+[![API Backend](https://img.shields.io/badge/Backend-FastAPI%20%7C%20Railway-000000?style=flat-square&logo=railway)](https://railway.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+
+ProductKosh is an enterprise-grade product intelligence platform engineered specifically for the Indian commerce and industrial manufacturing landscape. It automates the transformation of minimal, unstructured product inputs (such as a brand name and basic title) into deeply enriched, validated, and commerce-ready catalog records mapped to standard **UNSPSC taxonomy**, realistic Indian market **(INR) pricing**, **GST HSN codes**, and national compliance standards (**BIS IS, FSSAI, BEE Star, IBR 1950**).
 
 ---
 
-## Overview
+## Live Links
 
-In the Indian supply chain and retail ecosystem, product data is frequently fragmented, inconsistent, and unstructured. Suppliers often provide minimal descriptions without standardized attribute keys, accurate UNSPSC classifications, or explicit regulatory compliance details.
-
-ProductKosh addresses this challenge by combining vector-based document retrieval with grounded language model enrichment and a deterministic, category-aware validation engine. Every generated specification includes an explicit lineage trail, confidence score, and direct citation back to source technical datasheets, eliminating ungrounded hallucinations.
+- **Frontend Website**: [https://productkosh.vercel.app/](https://productkosh.vercel.app/)
+- **Backend API Docs (Swagger UI)**: `https://<your-railway-app>.up.railway.app/docs` (or `http://localhost:8000/docs` locally)
+- **GitHub Repository**: [https://github.com/a4kashhh/ProductKosh](https://github.com/a4kashhh/ProductKosh)
 
 ---
 
 ## Key Capabilities
 
-### Grounded Technical Extraction
-- Expands basic product names into comprehensive technical specifications.
-- Attaches confidence scores (0.0 to 1.0), source document references, and reasoning traces to every individual attribute.
-- Utilizes Google Gemini API for structured generation with an automated deterministic heuristic fallback.
+### 1. Grounded Technical Extraction (Zero Hallucinations)
+- Expands basic product titles into verified technical specifications.
+- Attaches confidence scores (0.0 to 1.0), source document citations (e.g. `DOC-004 §2.1`), and reasoning traces to every individual attribute.
+- Built-in TF-IDF vector retrieval matched against an indexed corpus of authentic Indian OEM technical datasheets (L&T, Kirloskar, Havells, Polycab, Voltas, Fortune, etc.).
 
-### Standardized Taxonomy and Classification
-- Maps incoming products to precise 8-digit UNSPSC category codes and standardized naming conventions.
-- Covers consumer goods (FMCG), consumer appliances, electricals, construction materials, and heavy industrial process equipment.
+### 2. Standardized Taxonomy (UNSPSC v24.0)
+- Maps incoming products to precise 8-digit UNSPSC category codes and standardized segment hierarchies.
+- Covers Process Equipment, Electrical & Switchgear, HVAC & Thermal Comfort, Packaged Commodities / FMCG, and Infrastructure Steel.
 
-### Indian Market Context and Currency
-- Generates realistic Indian retail and B2B market price ranges calibrated in Indian Rupees (INR).
-- Validates price boundary logic to prevent logical contradictions.
+### 3. Indian Market Context, INR Pricing & GST HSN
+- Generates realistic Indian B2B trade list prices, wholesale discount bands, and retail MRP guidelines calibrated in Indian Rupees (₹).
+- Classifies 8-digit GST HSN codes aligned with CBIC tariff schedules.
 
-### Regulatory Compliance Mapping
-- Automatically extracts and maps relevant Indian regulatory standards including:
-  - FSSAI and AGMARK for food, dairy, and edible oils.
-  - Bureau of Indian Standards (BIS IS) specifications across all product categories.
-  - Bureau of Energy Efficiency (BEE) star ratings for home appliances.
-  - Indian Boiler Regulations (IBR 1950) for process valves and piping.
-  - Petroleum and Explosives Safety Organisation (PESO/CCOE) and DGMS for industrial safety equipment.
-  - Legal Metrology compliance and Make in India supplier classification.
+### 4. Regulatory Compliance Mapping
+- Automatically extracts and audits relevant Indian statutory standards:
+  - **BIS (Bureau of Indian Standards)**: ISI marks across IS 1391, IS 3854, IS 694, IS 2062, IS 1239.
+  - **FSSAI & AGMARK**: 14-digit FSSAI licensing, allergen warnings, and Legal Metrology net weight rules.
+  - **BEE (Bureau of Energy Efficiency)**: Star ratings and ISEER energy efficiency calculations.
+  - **IBR 1950 (Indian Boiler Regulations)**: High-pressure steam certificates and metallurgy compliance.
 
-### Category-Aware Validation Engine
-- Replaces rigid, one-size-fits-all checks with dynamic, category-specific validation rules.
-- Enforces mandatory attributes relevant to each product family (e.g., net volume and smoke point for edible oils; cooling capacity and star rating for air conditioners; flange rating and metallurgy for industrial valves).
-- Performs physical bound sanity checks (e.g., pressure within 0 to 700 Bar, temperatures within operating limits).
+### 5. Category-Aware Deterministic Rules Engine
+- Enforces physical bound sanity checks (e.g. valve pressure within 0–700 Bar, temperature bounds).
+- Enforces mandatory category-specific parameters before records can be marked clean.
 
-### Human-in-the-Loop (HITL) Review Queue
-- Automatically routes records failing confidence thresholds or mandatory field checks to an interactive review queue.
-- Allows catalog managers to inspect source evidence, accept valid extractions, edit values inline, or reject faulty entries with audited feedback.
+### 6. Audited Human-in-the-Loop (HITL) Review Queue
+- Automatically routes records with lower extraction confidence or missing parameters to catalog managers.
+- Allows inline editing, single-click acceptance, rejection, and full timestamped audit lineage logs.
 
-### Export and Interoperability
-- Supports immediate export of enriched catalogs in structured JSON and flat CSV formats for direct ingestion into ERP, PIM, or marketplace databases.
+### 7. Export & Interoperability
+- Export enriched catalogs in structured canonical JSON or flattened tabular CSV for direct ingestion into SAP, Oracle NetSuite, Akeneo, Shopify, or GeM tender templates.
 
 ---
 
 ## Pipeline Architecture
 
-ProductKosh operates across a 6-stage sequential pipeline:
-
 ```
-+-----------------------------------------------------------------------------+
-|                            ProductKosh Pipeline                             |
-+-----------------------------------------------------------------------------+
-
-  INPUT                    RETRIEVAL                GENERATION
-  +----------------+       +------------------+     +-----------------------+
-  | Minimal Input  | ----> | Vector Search    | --> | Grounded Extraction   |
-  | (Name + Brand) |       | (TF-IDF Index    |     | (Gemini / Heuristic)  |
-  +----------------+       |  196 Chunks)     |     +-----------+-----------+
-                           +------------------+                 |
-                                                                v
-  HITL REVIEW              VALIDATION               CANONICAL RECORD
-  +----------------+       +------------------+     +-----------------------+
-  | Human Review   | <---- | Category-Aware   | <-- | Enriched Product      |
-  | (Accept / Edit |       | Rules Engine     |     | (Specs, Standards,    |
-  |  / Reject)     |       | (Bounds & Checks)|     |  INR Price, Lineage)  |
-  +-------+--------+       +------------------+     +-----------------------+
-          |
-          v
-  +----------------+
-  | Commerce-Ready |
-  | Export (JSON)  |
-  +----------------+
-```
-
-1. **Ingestion**: Raw product names and minimal seed attributes are loaded.
-2. **Retrieval**: The system queries an indexed vector corpus of over 40 Indian technical datasheets, retrieving the top 4 most relevant context chunks.
-3. **Enrichment**: The model extracts structured attributes, assigning confidence scores and source citations to each key.
-4. **Validation**: The record is evaluated against domain-specific constraints, bounds, and required field registries.
-5. **Auditing & HITL**: Flagged records enter the human review workflow for manual verification.
-6. **Export**: Validated records are finalized with complete audit lineage logs.
-
----
-
-## Data Model
-
-Each enriched record conforms to the canonical `EnrichedProduct` schema:
-
-| Field | Type | Description |
-|---|---|---|
-| `id` | string | Unique record identifier. |
-| `sku` | string | Generated SKU matching Indian category conventions. |
-| `name` | string | Normalized product title. |
-| `category` | string | Standard UNSPSC taxonomy descriptor. |
-| `category_id` | string | Standard 8-digit UNSPSC code. |
-| `brand` | string | Manufacturer or brand entity. |
-| `description` | string | Detailed technical description grounded in source literature. |
-| `specifications` | Map<string, AttributeValue> | Key-value specification map containing value, unit, confidence score, source chunk ID, excerpt, and reasoning. |
-| `compliance` | ComplianceItem[] | Applicable Indian standards with individual confidence scores and citations. |
-| `price_range` | PriceRange | Estimated min/max values in INR with justification. |
-| `overall_confidence` | float | Composite reliability score across all extracted fields. |
-| `validation_status` | string | Status flag: `clean`, `needs_review`, or `reviewed`. |
-| `flagged_fields` | string[] | List of fields that triggered validation warnings or errors. |
-| `validation_issues` | ValidationIssue[] | Detailed diagnostics with recommended remediation actions. |
-| `lineage` | LineageLog[] | Complete chronological audit log of all transformations. |
-
----
-
-## Technology Stack
-
-### Frontend
-- **Framework**: Next.js 16 (React 19, App Router)
-- **Styling**: Tailwind CSS, Vanilla CSS custom design system
-- **Typography**: Montserrat, Noto Sans Devanagari, Yatra One
-- **Icons**: Lucide React
-- **Shaders / Visuals**: WebGL shader integration
-
-### Backend
-- **Runtime**: Python 3.10+
-- **API Framework**: FastAPI with Uvicorn ASGI server
-- **Data Validation**: Pydantic v2
-- **Information Retrieval**: Scikit-Learn (TF-IDF vectorizer and cosine similarity)
-- **AI Integration**: Google Gemini API (`google-genai` SDK)
-
----
-
-## Repository Structure
-
-```
-.
-|-- app/                         # Next.js App Router root
-|   |-- layout.tsx               # Root layout, fonts, and metadata
-|   |-- page.tsx                 # View controller (Homepage & Dashboard tabs)
-|   +-- globals.css              # Global styling tokens
-|-- components/                  # React UI components
-|   |-- HomePage.tsx             # Interactive landing page and feature navigation
-|   |-- HowItWorksPage.tsx       # System walkthrough, data model, and architecture
-|   |-- BatchProcessorView.tsx   # Batch execution interface with status polling
-|   |-- ProductCatalogView.tsx   # Searchable catalog table and inspection drawer
-|   |-- ReviewQueueView.tsx      # Human-in-the-loop audit and remediation interface
-|   |-- MetricsDashboardView.tsx # Aggregated accuracy and throughput analytics
-|   +-- ai-orb-header.tsx        # Application navigation bar
-|-- backend/                     # FastAPI application
-|   |-- main.py                  # API endpoints and route definitions
-|   |-- config.py                # Configuration and environment variables
-|   |-- models/
-|   |   +-- product.py           # Pydantic domain models and schemas
-|   +-- services/
-|       |-- corpus.py            # Technical datasheet loader and indexer
-|       |-- retrieval.py         # TF-IDF vector search and retrieval engine
-|       |-- generation.py        # Grounded generation logic and fallback rules
-|       +-- validation.py        # Category-aware validation rules engine
-|-- mock_corpus/                 # Raw text datasheets and sample input corpus
-|   |-- input_products.json      # 200 Indian seed products across 15+ categories
-|   +-- *.txt                    # Technical specification documents
-+-- public/                      # Static assets, branding, and icons
+  RAW INPUT               VECTOR RETRIEVAL           GROUNDED GENERATION
+  +----------------+      +-------------------+      +-----------------------+
+  | Minimal Input  | ---> | TF-IDF Index      | ---> | Structured Extraction |
+  | (Brand + Name) |      | (Indian Datasheet |      | (Exact Citations &    |
+  +----------------+      |  Corpus Chunks)   |      |  Confidence Scores)   |
+                          +-------------------+      +-----------+-----------+
+                                                                 |
+                                                                 v
+  COMMERCE EXPORT         HITL REVIEW QUEUE          DETERMINISTIC VALIDATION
+  +----------------+      +-------------------+      +-----------------------+
+  | Clean Catalog  | <--- | Human Reviewer    | <--- | 40+ Category Rules    |
+  | (JSON / CSV)   |      | (Accept/Edit/Log) | Flag | (Physical Bounds,     |
+  +----------------+      +-------------------+      |  Mandatory Schemas)   |
+                                                     +-----------------------+
 ```
 
 ---
 
-## Getting Started
+## Production Deployment Guide
 
-### Prerequisites
-- Node.js 18.x or higher
-- Python 3.10 or higher
-- Git
+### A. Deploying Python Backend on Railway (1-Click)
+
+1. **Sign in to [railway.app](https://railway.app)** with your GitHub account.
+2. Click **New Project** &rarr; **Deploy from GitHub repo** &rarr; select **`a4kashhh/ProductKosh`**.
+3. Railway automatically detects the root `Dockerfile` / `main.py` and builds the Python FastAPI container.
+4. **Generate your Public HTTPS Domain**:
+   - In your Railway project, click on the deployed service &rarr; go to **Settings** &rarr; **Networking**.
+   - Under **"Generate Service Domain"**, enter port **`8000`** and click **Generate Domain**.
+   - Copy your public domain (e.g. `https://productkosh-production.up.railway.app`).
+
+---
+
+### B. Deploying Frontend on Vercel
+
+1. **Sign in to [vercel.com](https://vercel.com)** and import the **`ProductKosh`** repository.
+2. Configure **Environment Variables** in Vercel (*Settings > Environment Variables*):
+   ```env
+   NEXT_PUBLIC_API_URL=https://your-railway-domain.up.railway.app
+   NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyCIPTkkuXRL0-gj1b9YoacnQR8XD2uiEV0
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=productkosh-271d1.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=productkosh-271d1
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=productkosh-271d1.firebasestorage.app
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=829432124084
+   NEXT_PUBLIC_FIREBASE_APP_ID=1:829432124084:web:30192c5a1f6befadf7fde1
+   NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=G-9CNMGB8LC0
+   ```
+3. Click **Deploy** (or **Redeploy** if already created).
+
+---
+
+### C. Authorizing Domain in Firebase
+
+1. Open [Firebase Console](https://console.firebase.google.com/) for project **`productkosh-271d1`**.
+2. Navigate to **Authentication** &rarr; **Settings** &rarr; **Authorized domains**.
+3. Add `productkosh.vercel.app` (and any custom domain).
+
+---
+
+## Local Development Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -178,54 +122,58 @@ git clone https://github.com/a4kashhh/ProductKosh.git
 cd ProductKosh
 ```
 
-### 2. Backend Setup
+### 2. Run Backend (FastAPI + Python)
 ```bash
-# Navigate to project root and create a virtual environment
+# Create virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
-# Install dependencies
-pip install fastapi uvicorn pydantic scikit-learn numpy google-genai
+# Install requirements
+pip install -r requirements.txt
 
-# Optional: Set Gemini API key for live model generation
-export GEMINI_API_KEY="your-api-key-here"
-
-# Start the FastAPI server
-uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+# Start backend server
+python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
 ```
+*Interactive Swagger UI:* [http://localhost:8000/docs](http://localhost:8000/docs)
 
-The backend documentation will be accessible at `http://localhost:8000/docs`.
-
-### 3. Frontend Setup
+### 3. Run Frontend (Next.js 16 + React 19)
 ```bash
-# In a separate terminal, install Node dependencies
+# In a separate terminal tab:
 npm install
-
-# Optional: Set Google OAuth Client ID for live Google Workspace sign-in in .env.local
-# NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
-
-# Start the Next.js development server
 npm run dev
 ```
-
-Open `http://localhost:3000` in your browser.
+*Open:* [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## API Endpoints
+## API Reference
 
 | Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/health` | Service health status check. |
-| `POST` | `/api/documents/ingest` | Ingests and indexes technical specification documents. |
-| `POST` | `/api/enrich/single` | Enriches a single raw product input payload. |
-| `POST` | `/api/enrich/batch` | Initiates asynchronous batch enrichment for the seed corpus. |
-| `GET` | `/api/enrich/batch/status/{job_id}` | Polls progress and metrics for a running batch job. |
-| `GET` | `/api/products` | Retrieves all enriched products with optional status filtering. |
-| `GET` | `/api/products/{product_id}` | Retrieves a single product with full specification map and lineage. |
-| `PATCH` | `/api/products/{product_id}/review` | Submits human review actions (accept, edit, reject). |
+| :--- | :--- | :--- |
 | `GET` | `/api/metrics` | Returns aggregated quality, confidence, and validation statistics. |
-| `GET` | `/api/export?format=json` | Exports all records in canonical JSON format. |
-| `GET` | `/api/export?format=csv` | Exports all records in flattened CSV format. |
+| `GET` | `/api/products` | Retrieves all enriched products with optional status/category filtering. |
+| `GET` | `/api/products/{id}` | Retrieves a single product with full specification map and lineage. |
+| `POST` | `/api/enrich/single` | Enriches a single raw product input payload. |
+| `POST` | `/api/enrich/batch` | Initiates asynchronous batch enrichment across the seed catalog. |
+| `GET` | `/api/enrich/batch/status/{job_id}` | Polls progress and throughput metrics for a running batch job. |
+| `POST` | `/api/products/{id}/review` | Submits human review actions (`accept`, `edit`, `reject`) with audit notes. |
+| `GET` | `/api/export?format=json` | Exports all records in canonical JSON format with full lineage. |
+| `GET` | `/api/export?format=csv` | Exports all records in flattened CSV tabular format. |
 
 ---
+
+## Technology Stack
+
+- **Frontend**: Next.js 16 (React 19, App Router, TypeScript)
+- **Styling**: Tailwind CSS, PostCSS, Lucide Icons, Paper Design Shaders
+- **Backend**: FastAPI, Uvicorn, Pydantic v2, Python 3.11
+- **Machine Learning & RAG**: Scikit-Learn (TF-IDF vectorizer + Cosine Similarity)
+- **Authentication**: Firebase Authentication (Google OAuth, Apple, Email/Password, Phone OTP)
+- **Cloud Hosting**: Vercel (Frontend) + Railway / Render (Backend Docker Container)
+
+---
+
+## Author & Copyright
+
+**© a4kashhh**
+ProductKosh — Indian Product Intelligence & Governance Platform
