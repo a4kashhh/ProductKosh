@@ -372,9 +372,6 @@ export function HomePage({ onEnter }: HomePageProps) {
         {/* Header & Product Switcher */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-200">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1 font-mono">
-              Live Specification Verification
-            </div>
             <h2 className="text-2xl font-bold text-neutral-950">
               Product Transformation Engine
             </h2>
